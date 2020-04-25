@@ -19,7 +19,7 @@ void test_Vec3f() {
         assert( sizeof(Vec3f) == 3*sizeof(float) );
         cout << "passed." << endl;
     }
-    #if 0
+    
     {
         cout << "  constructor & index operator: ";
         Vec3f a;
@@ -28,7 +28,7 @@ void test_Vec3f() {
         assert( b[0] == 1 && b[1] == 2 && b[2] == 3 );
         cout << "passed." << endl;
     }
-
+    #if 0
     {
         cout << "  read-only access to const object: ";
         const Vec3f a(1,2,3);
