@@ -57,3 +57,12 @@ Vec3f::operator+ (Vec3f vec3f)
     temp += vec3f;
     return temp;
 }
+
+Vec3f&
+Vec3f::operator- ()
+{
+    vec3f_[0] = -vec3f_[0];
+    vec3f_[1] = -vec3f_[1];
+    vec3f_[2] = -vec3f_[2];
+    return *this;
+}

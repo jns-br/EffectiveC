@@ -15,6 +15,7 @@ namespace my {
             bool operator!= (Vec3f vec3f);
             Vec3f& operator+= (Vec3f vec3f);
             Vec3f operator+ (Vec3f vec3f);
+            Vec3f& operator- ();
         
         private:
             std::array<float, 3> vec3f_;

@@ -65,7 +65,7 @@ void test_Vec3f() {
         assert( a[0] == 4 && a[1] == 5 && a[2] == 6 );
         cout << "passed." << endl;
     }
-    #if 0
+    
     {
         cout << "  addition: ";
         Vec3f a(1,2,3), b(4,5,6);
@@ -82,7 +82,7 @@ void test_Vec3f() {
         assert( x == y );
         cout << "passed." << endl;
     }
-    
+    #if 0
     {
         cout << "  unary minus: ";
         Vec3f a(1,2,3);
