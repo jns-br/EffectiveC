@@ -89,7 +89,7 @@ void test_Vec3f() {
         assert( -a == Vec3f(-1,-2,-3) );
         cout << "passed." << endl;
     }
-    #if 0
+    
     {
         cout << "  dot product: ";
         Vec3f a(1,2,3);
@@ -110,7 +110,7 @@ void test_Vec3f() {
         assert( dot(a,a) == 1*1+2*2+3*3 );
         cout << "passed." << endl;
     }
-    #endif
+    
     cout << "all Vec3f tests passed." << endl << endl;   
 
 #endif // not NDEBUG
