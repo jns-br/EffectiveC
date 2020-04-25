@@ -49,3 +49,11 @@ Vec3f::operator+= (Vec3f vec3f) {
     vec3f_[2] += vec3f[2];
     return *this; 
 }
+
+Vec3f
+Vec3f::operator+ (Vec3f vec3f)
+{
+    Vec3f temp(*this);
+    temp += vec3f;
+    return temp;
+}
