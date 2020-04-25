@@ -17,3 +17,9 @@ Vec3f::set_vec3f(std::array<float, 3> vec3f)
 {
     vec3f_ = vec3f;
 }
+
+float&
+Vec3f::operator[] (int index)
+{
+    return vec3f_[index];
+}

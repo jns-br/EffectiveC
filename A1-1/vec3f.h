@@ -9,6 +9,7 @@ namespace my {
 
             std::array<float, 3> vec3f() const;
             void set_vec3f(std::array<float, 3> vec3f);
+            float& operator[] (int index);
         
         private:
             std::array<float, 3> vec3f_;
