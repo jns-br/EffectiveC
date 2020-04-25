@@ -21,4 +21,6 @@ namespace my {
             std::array<float, 3> vec3f_;
 
     };
+
+    float dot(Vec3f vec3fA, Vec3f vec3fB);
 }

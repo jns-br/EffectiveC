@@ -82,14 +82,14 @@ void test_Vec3f() {
         assert( x == y );
         cout << "passed." << endl;
     }
-    #if 0
+    
     {
         cout << "  unary minus: ";
         Vec3f a(1,2,3);
         assert( -a == Vec3f(-1,-2,-3) );
         cout << "passed." << endl;
     }
-    
+    #if 0
     {
         cout << "  dot product: ";
         Vec3f a(1,2,3);

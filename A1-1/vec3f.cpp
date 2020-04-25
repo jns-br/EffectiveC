@@ -66,3 +66,9 @@ Vec3f::operator- ()
     vec3f_[2] = -vec3f_[2];
     return *this;
 }
+
+float
+dot(Vec3f vec3fA, Vec3f vec3fB)
+{
+    return vec3fA[0] * vec3fB[0] + vec3fA[1] * vec3fB[1] + vec3fA[2] * vec3fB[2];
+}
