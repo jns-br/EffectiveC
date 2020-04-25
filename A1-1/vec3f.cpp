@@ -29,3 +29,15 @@ Vec3f::operator[] (int index)
 {
     return vec3f_[index];
 }
+
+bool
+Vec3f::operator== (std::array<float, 3> vec3f)
+{
+    return vec3f_[0] == vec3f[0] && vec3f_[1] == vec3f[1] && vec3f_[2] == vec3f[2];
+}
+
+bool
+Vec3f::operator!= (std::array<float, 3> vec3f)
+{
+    return !(vec3f_ == vec3f);
+}
