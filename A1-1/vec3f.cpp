@@ -23,3 +23,9 @@ Vec3f::operator[] (int index) const
 {
     return vec3f_[index];
 }
+
+float&
+Vec3f::operator[] (int index)
+{
+    return vec3f_[index];
+}
