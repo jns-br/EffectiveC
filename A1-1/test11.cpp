@@ -28,7 +28,7 @@ void test_Vec3f() {
         assert( b[0] == 1 && b[1] == 2 && b[2] == 3 );
         cout << "passed." << endl;
     }
-    #if 0
+    
     {
         cout << "  read-only access to const object: ";
         const Vec3f a(1,2,3);
@@ -36,7 +36,7 @@ void test_Vec3f() {
         assert( a[1] == 2 );
         cout << "passed." << endl;
     }
-
+    #if 0
     {
         cout << "  write access to a non-const object: ";
         Vec3f a(1,2,3);
