@@ -11,8 +11,8 @@ namespace my {
             void set_vec3f(std::array<float, 3> vec3f);
             float operator[] (int index) const;
             float& operator[] (int index);
-            bool operator== (std::array<float, 3> vec3f);
-            bool operator!= (std::array<float, 3> vec3f);
+            bool operator== (Vec3f vec3f);
+            bool operator!= (Vec3f vec3f);
         
         private:
             std::array<float, 3> vec3f_;

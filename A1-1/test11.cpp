@@ -44,7 +44,7 @@ void test_Vec3f() {
         assert( a[0] == 1 && a[1] == 4 && a[2] == 3 );
         cout << "passed." << endl;
     }
-    #if 0
+    
     {
         cout << "  comparison: ";        
         Vec3f a(1,2,3), b(1,2,3), c(1,2,9), d(4,5,6);
@@ -55,7 +55,7 @@ void test_Vec3f() {
         assert( !(a != b) );
         cout << "passed." << endl;
     }
-    
+    #if 0
     {
         // should work out of the box when using std container (!)
         cout << "  assignment: "; 
