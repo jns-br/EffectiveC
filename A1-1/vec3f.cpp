@@ -41,3 +41,11 @@ Vec3f::operator!= (Vec3f vec3f)
 {
     return !(*this == vec3f);
 }
+
+Vec3f&
+Vec3f::operator+= (Vec3f vec3f) {
+    vec3f_[0] += vec3f[0];
+    vec3f_[1] += vec3f[1];
+    vec3f_[2] += vec3f[2];
+    return *this; 
+}

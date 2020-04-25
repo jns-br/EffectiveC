@@ -13,6 +13,7 @@ namespace my {
             float& operator[] (int index);
             bool operator== (Vec3f vec3f);
             bool operator!= (Vec3f vec3f);
+            Vec3f& operator+= (Vec3f vec3f);
         
         private:
             std::array<float, 3> vec3f_;
