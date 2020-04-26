@@ -19,19 +19,19 @@ Vec3f::operator[] (int index)
 }
 
 bool
-Vec3f::operator== (Vec3f vec3f) const
+Vec3f::operator== (const Vec3f& vec3f) const
 {
     return vec3f_[0] == vec3f[0] && vec3f_[1] == vec3f[1] && vec3f_[2] == vec3f[2];
 }
 
 bool
-Vec3f::operator!= (Vec3f vec3f) const
+Vec3f::operator!= (const Vec3f& vec3f) const
 {
     return !(*this == vec3f);
 }
 
 Vec3f&
-Vec3f::operator+= (Vec3f vec3f) {
+Vec3f::operator+= (const Vec3f& vec3f) {
     vec3f_[0] += vec3f[0];
     vec3f_[1] += vec3f[1];
     vec3f_[2] += vec3f[2];
@@ -39,7 +39,7 @@ Vec3f::operator+= (Vec3f vec3f) {
 }
 
 Vec3f
-Vec3f::operator+ (Vec3f vec3f) const
+Vec3f::operator+ (const Vec3f& vec3f) const
 {
     Vec3f temp(*this);
     temp += vec3f;
