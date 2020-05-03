@@ -6,11 +6,8 @@ namespace my {
     template<typename T, int N>
     class Vec {
         public:
-            template<typename ... Args>
-            Vec(const T& first, const Args& ... rest) : v_({first, rest...})
-            {
-                static_assert(N == 1 + sizeof... (Args), "Vec: Wrong number of arguments");
-            }
+            Vec(std::array<T,N> const& v) : v_(v)
+            {}
 
             T operator[] (int index) const;
             T& operator[] (int index);
@@ -72,6 +69,12 @@ namespace my {
         Vec temp(*this);
         temp += vec;
         return temp;
+    }
+
+    template<typename T, int N>
+    Vec<T,N> Vec<T,N>::operator- () const {
+        
+        return Vec(v_);
     }
 
     //float dot(const Vec& vecA, const Vec& vecB);
