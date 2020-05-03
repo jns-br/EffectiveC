@@ -14,7 +14,7 @@ int main()
 
     my::Vec<float,4> z({-2.0f, -3.3f, -4.4f, -5.5f});
 
-    
+    auto tmp2 = my::dot(x, y);
 
     std::cout << (-tmp == z) << std::endl;
     return 0;
