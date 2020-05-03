@@ -6,7 +6,7 @@ namespace my {
     template<typename T, int N>
     class Vec {
         public:
-            Vec(std::array<T,N> const& v) : v_(v) {}
+            Vec(std::array<T,N> const& v);
 
             T operator[] (int index) const;
             T& operator[] (int index);
@@ -20,6 +20,9 @@ namespace my {
             std::array<T, N> v_;
 
     };
+
+    template<typename T, int N>
+    Vec<T,N>::Vec(std::array<T,N> const& v) : v_(v) {}
 
     template<typename T, int N>
     T Vec<T,N>::operator[] (int index) const 
