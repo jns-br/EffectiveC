@@ -3,7 +3,7 @@
 #include <typeinfo>
 using namespace std;
 
-#include "vec3.h"
+#include "vec.h"
 using namespace my;
 
 void test_Vec() {
