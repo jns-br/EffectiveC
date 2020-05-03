@@ -31,16 +31,12 @@ namespace my {
     template<typename T, int N>
     T Vec<T,N>::operator[] (int index) const 
     {
-        //static_assert(index >= 0 && index < N, "Vec[]: Index out of bounds");
-
         return v_[index];
     };
 
     template<typename T, int N>
     T& Vec<T,N>::operator[] (int index) 
     {
-        //static_assert(index >= 0 && index < N, "Vec[]: Index out of bounds");
-
         return v_[index];
     };
 
