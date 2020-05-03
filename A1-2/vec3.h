@@ -16,7 +16,7 @@ namespace my {
             T& operator[] (int index);
             bool operator== (const Vec<T,N>& vec) const;
             bool operator!= (const Vec<T,N>& vec) const;
-            Vec<T,N> operator+= (const Vec<T,N>& vec);
+            Vec<T,N>& operator+= (const Vec<T,N>& vec);
             Vec<T,N> operator+ (const Vec<T,N>& vec) const;
             Vec<T,N> operator- () const;
         
@@ -57,6 +57,22 @@ namespace my {
         return !(*this == vec);
     }
 
+    template<typename T, int N>
+    Vec<T,N>& Vec<T,N>::operator+= (const Vec<T,N>& vec) {
+        for (int i = 0; i < N; i++)
+        {
+            v_[i] += vec[i];
+        }
+
+        return *this;   
+    }
+
+    template<typename T, int N>
+    Vec<T,N> Vec<T,N>::operator+ (const Vec<T,N>& vec) const {
+        Vec temp(*this);
+        temp += vec;
+        return temp;
+    }
 
     //float dot(const Vec& vecA, const Vec& vecB);
 }

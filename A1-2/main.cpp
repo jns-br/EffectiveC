@@ -5,16 +5,14 @@
 int main()
 {
     my::Vec<float,4> x(1.0f, 2.3f, 3.4f, 4.5f);
-    my::Vec<float,4> y(1.0f, 2.3f, 3.4f, 4.5f);
+    my::Vec<float,4> y(1.0f, 1.0f, 1.0f, 1.0f);
 
+    my::Vec<float,4> tmp = x + y;
 
-    float f = x[1];
-    std::cout << f << std::endl;
+    my::Vec<float,4> z(2.0f, 3.3f, 4.4f, 5.5f);
 
-    bool comp = x == y;
-    std::cout << comp << std::endl;
+    
 
-    bool comp2 = x != y;
-    std::cout << comp2 << std::endl;
+    std::cout << (tmp == z) << std::endl;
     return 0;
 }
