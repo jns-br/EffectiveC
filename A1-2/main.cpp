@@ -16,6 +16,8 @@ int main()
 
     auto tmp2 = my::dot(x, y);
 
+    test_Vec();
+
     std::cout << (-tmp == z) << std::endl;
     return 0;
 }

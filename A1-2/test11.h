@@ -1,3 +1,3 @@
 #pragma once
 
-void test_Vec3f();
+void test_Vec();
