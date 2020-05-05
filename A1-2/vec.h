@@ -3,7 +3,7 @@
 #include <array>
 
 namespace my {
-    template<typename T, int N>
+    template<typename T, size_t N>
     class Vec {
         public:
             Vec();
@@ -22,28 +22,28 @@ namespace my {
 
     };
 
-    template<typename T, int N>
+    template<typename T, size_t N>
     Vec<T,N>::Vec() {}
 
-    template<typename T, int N>
+    template<typename T, size_t N>
     Vec<T,N>::Vec(std::array<T,N> const& v) : v_(v) {}
 
-    template<typename T, int N>
+    template<typename T, size_t N>
     T Vec<T,N>::operator[] (int index) const 
     {
         return v_[index];
     };
 
-    template<typename T, int N>
+    template<typename T, size_t N>
     T& Vec<T,N>::operator[] (int index) 
     {
         return v_[index];
     };
 
-    template<typename T, int N>
+    template<typename T, size_t N>
     bool Vec<T,N>::operator== (const Vec<T,N>& vec) const 
     {
-        for (int i = 0; i < N; i++)
+        for (size_t i = 0; i < N; i++)
         {
             if (v_[i] != vec[i])
             {
@@ -54,16 +54,16 @@ namespace my {
         return true; 
     };
 
-    template<typename T, int N>
+    template<typename T, size_t N>
     bool Vec<T,N>::operator!= (const Vec<T,N>& vec) const 
     {
         return !(*this == vec);
     }
 
-    template<typename T, int N>
+    template<typename T, size_t N>
     Vec<T,N>& Vec<T,N>::operator+= (const Vec<T,N>& vec) 
     {
-        for (int i = 0; i < N; i++)
+        for (size_t i = 0; i < N; i++)
         {
             v_[i] += vec[i];
         }
@@ -71,7 +71,7 @@ namespace my {
         return *this;   
     }
 
-    template<typename T, int N>
+    template<typename T, size_t N>
     Vec<T,N> Vec<T,N>::operator+ (const Vec<T,N>& vec) const 
     {
         Vec temp(*this);
@@ -79,11 +79,11 @@ namespace my {
         return temp;
     }
 
-    template<typename T, int N>
+    template<typename T, size_t N>
     Vec<T,N> Vec<T,N>::operator- () const 
     {
         std::array<T,N> neg;
-        for (int i = 0; i < N; i++)
+        for (size_t i = 0; i < N; i++)
         {
             neg[i] = -v_[i];
         }
@@ -91,12 +91,12 @@ namespace my {
         return Vec(neg);
     }
 
-    template<typename T, int N>
+    template<typename T, size_t N>
     T dot(const Vec<T,N>& vecA, const Vec<T,N>& vecB)
     {
         T f = 0;
 
-        for (int i = 0; i < N; i++)
+        for (size_t i = 0; i < N; i++)
         {
             f += vecA[i] * vecB[i];
         }
