@@ -6,13 +6,13 @@ Vec3f::Vec3f(float x, float y, float z)
 {}
 
 float
-Vec3f::operator[] (int index) const
+Vec3f::operator[] (const int& index) const
 {
     return vec3f_[index];
 }
 
 float&
-Vec3f::operator[] (int index)
+Vec3f::operator[] (const int& index)
 {
     return vec3f_[index];
 }
