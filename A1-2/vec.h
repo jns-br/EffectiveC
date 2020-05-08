@@ -9,8 +9,8 @@ namespace my {
             Vec();
             Vec(std::array<T,N> const& v);
 
-            T operator[] (int index) const;
-            T& operator[] (int index);
+            T operator[] (const int& index) const;
+            T& operator[] (const int& index);
             bool operator== (const Vec<T,N>& vec) const;
             bool operator!= (const Vec<T,N>& vec) const;
             Vec<T,N>& operator+= (const Vec<T,N>& vec);
@@ -29,13 +29,13 @@ namespace my {
     Vec<T,N>::Vec(std::array<T,N> const& v) : v_(v) {}
 
     template<typename T, size_t N>
-    T Vec<T,N>::operator[] (int index) const 
+    T Vec<T,N>::operator[] (const int& index) const 
     {
         return v_[index];
     };
 
     template<typename T, size_t N>
-    T& Vec<T,N>::operator[] (int index) 
+    T& Vec<T,N>::operator[] (const int& index) 
     {
         return v_[index];
     };
