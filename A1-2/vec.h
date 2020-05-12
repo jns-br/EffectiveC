@@ -1,13 +1,15 @@
 #pragma once
 
 #include <array>
+#include <algorithm>
+#include <numeric>
 
 namespace my {
     template<typename T, size_t N>
     class Vec {
         public:
             Vec();
-            Vec(std::array<T,N> const& v);
+            Vec(const std::array<T,N>& v);
 
             T operator[] (const int& index) const;
             T& operator[] (const int& index);
@@ -16,6 +18,7 @@ namespace my {
             Vec<T,N>& operator+= (const Vec<T,N>& vec);
             Vec<T,N> operator+ (const Vec<T,N>& vec) const;
             Vec<T,N> operator- () const;
+            friend T dot(const Vec<T,N>& vecA, const Vec<T,N>& vecB);
         
         private:
             std::array<T, N> v_;
@@ -26,7 +29,7 @@ namespace my {
     Vec<T,N>::Vec() {}
 
     template<typename T, size_t N>
-    Vec<T,N>::Vec(std::array<T,N> const& v) : v_(v) {}
+    Vec<T,N>::Vec(const std::array<T,N>& v) : v_(v) {}
 
     template<typename T, size_t N>
     T Vec<T,N>::operator[] (const int& index) const 
@@ -43,15 +46,7 @@ namespace my {
     template<typename T, size_t N>
     bool Vec<T,N>::operator== (const Vec<T,N>& vec) const 
     {
-        for (size_t i = 0; i < N; i++)
-        {
-            if (v_[i] != vec[i])
-            {
-                return false;
-            }
-        }
-
-        return true; 
+        return std::equal(v_.begin(), v_.end(), vec.v_.begin()); 
     };
 
     template<typename T, size_t N>
@@ -62,11 +57,9 @@ namespace my {
 
     template<typename T, size_t N>
     Vec<T,N>& Vec<T,N>::operator+= (const Vec<T,N>& vec) 
-    {
-        for (size_t i = 0; i < N; i++)
-        {
-            v_[i] += vec[i];
-        }
+    {   
+        auto add = [](T val1, T val2){return val1 + val2;};
+        std::transform(v_.begin(), v_.end(), vec.v_.begin(), v_.begin(), add);
 
         return *this;   
     }
@@ -81,26 +74,19 @@ namespace my {
 
     template<typename T, size_t N>
     Vec<T,N> Vec<T,N>::operator- () const 
-    {
-        std::array<T,N> neg;
-        for (size_t i = 0; i < N; i++)
-        {
-            neg[i] = -v_[i];
-        }
+    {   
+        std::array<T,N> neg(v_);
+        auto negate = [](T val1) {return -val1;};
+        std::transform(neg.begin(), neg.end(), neg.begin(), negate);
         
+
         return Vec(neg);
     }
 
     template<typename T, size_t N>
-    T dot(const Vec<T,N>& vecA, const Vec<T,N>& vecB)
+    T dot( Vec<T,N> const& vecA, Vec<T,N> const& vecB)
     {
-        T f = 0;
-
-        for (size_t i = 0; i < N; i++)
-        {
-            f += vecA[i] * vecB[i];
-        }
-        
+        T f = std::inner_product(vecA.v_.begin(), vecA.v_.end(), vecB.v_.begin(), 0);
         return f;
     };
 }
