@@ -84,7 +84,7 @@ namespace my {
     }
 
     template<typename TD, size_t ND>
-    TD dot( Vec<TD,ND> const& vecA, Vec<TD,ND> const& vecB)
+    TD dot(const Vec<TD,ND>& vecA, const Vec<TD,ND>& vecB)
     {
         TD f = std::inner_product(vecA.v_.begin(), vecA.v_.end(), vecB.v_.begin(), 0);
         return f;
