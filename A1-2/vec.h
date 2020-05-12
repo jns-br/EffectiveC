@@ -5,6 +5,7 @@
 #include <numeric>
 #include <functional>
 #include <cmath>
+#include <iostream>
 
 namespace my {
     template<typename T, size_t N>
@@ -22,6 +23,7 @@ namespace my {
             Vec<T,N> operator- () const;
             T length() const;
             template<typename TD, size_t ND> friend TD dot(const Vec<TD,ND>& vecA, const Vec<TD,ND>& vecB);
+            template<typename TD, size_t ND> friend std::ostream& operator<<(std::ostream& os, const Vec<TD,ND>& vec);
         
         private:
             std::array<T, N> v_;
@@ -106,5 +108,12 @@ namespace my {
     {
         TD f = std::inner_product(vecA.v_.begin(), vecA.v_.end(), vecB.v_.begin(), 0);
         return f;
-    };
+    }
+
+    template<typename TD, size_t ND>
+    std::ostream& operator<<(std::ostream& os, const Vec<TD,ND>& vec) 
+    {
+        std::for_each(vec.v_.begin(), vec.v_.end(), [&os] (TD val){ os << " " << val;});
+        return os;
+    }
 }
