@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include <typeinfo>
+#include <vector>
 using namespace std;
 
 #include "vec.h"
@@ -32,6 +33,14 @@ void test_vec_13() {
         cout << "operator << ";
         vec3f a({4, 4, 4});
         cout << a << endl;
+    }
+
+    {
+        cout << "info test " << endl;
+        vec3f a ({1, 2, 3});
+        vec3f b ({4, 5, 6});
+        vector<vec3f> v = {a, b};
+        info(v);
     }
     
     cout << "all Vec tests passed." << endl << endl;   

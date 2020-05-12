@@ -24,6 +24,7 @@ namespace my {
             T length() const;
             template<typename TD, size_t ND> friend TD dot(const Vec<TD,ND>& vecA, const Vec<TD,ND>& vecB);
             template<typename TD, size_t ND> friend std::ostream& operator<<(std::ostream& os, const Vec<TD,ND>& vec);
+            template<typename TD, size_t ND> friend void info(const std::vector<Vec<TD,ND>>& container); 
         
         private:
             std::array<T, N> v_;
@@ -115,5 +116,11 @@ namespace my {
     {
         std::for_each(vec.v_.begin(), vec.v_.end(), [&os] (TD val){ os << " " << val;});
         return os;
+    }
+
+    template<typename TD, size_t ND>
+    void info(const std::vector<Vec<TD,ND>>& vector)
+    {
+        std::for_each(vector.begin(), vector.end(), [] (Vec<TD,ND> val) {std::cout << "Values: " << val << ", Length: " << val.length() << std::endl;});
     }
 }
