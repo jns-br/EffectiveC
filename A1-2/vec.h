@@ -3,6 +3,8 @@
 #include <array>
 #include <algorithm>
 #include <numeric>
+#include <functional>
+#include <cmath>
 
 namespace my {
     template<typename T, size_t N>
@@ -18,6 +20,7 @@ namespace my {
             Vec<T,N>& operator+= (const Vec<T,N>& vec);
             Vec<T,N> operator+ (const Vec<T,N>& vec) const;
             Vec<T,N> operator- () const;
+            T length() const;
             template<typename TD, size_t ND> friend TD dot(const Vec<TD,ND>& vecA, const Vec<TD,ND>& vecB);
         
         private:
@@ -81,6 +84,21 @@ namespace my {
         
 
         return Vec(neg);
+    }
+
+    template<typename T, size_t N>
+    T Vec<T,N>::length() const
+    {   
+        /*
+        C++ 17 function
+        T l = std::transform_reduce(v_.begin(), v_.end(), 0.0, std::plus<T>(), [](T  val) {return std::pow(val, 2);});
+        return std::sqrt(l);
+        */
+        std::array<T,N> exp(v_) ;
+        std::transform(exp.begin(), exp.end(), exp.begin(), [](T  val) {return std::pow(val, 2);});
+        T l = std::accumulate(exp.begin(), exp.end(), 0);
+        return std::sqrt(l);
+        
     }
 
     template<typename TD, size_t ND>

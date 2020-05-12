@@ -22,6 +22,11 @@ void test_vec_13() {
         cout << "passed." << endl;
     }
     
+    {
+        cout << " length method ";
+        Vec3f a({4, 4, 4});
+        cout << a.length() << endl;
+    }
     
     cout << "all Vec tests passed." << endl << endl;   
 
