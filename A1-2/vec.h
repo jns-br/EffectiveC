@@ -18,7 +18,7 @@ namespace my {
             Vec<T,N>& operator+= (const Vec<T,N>& vec);
             Vec<T,N> operator+ (const Vec<T,N>& vec) const;
             Vec<T,N> operator- () const;
-            template<typename U, size_t M> friend U dot(const Vec<U,M>& vecA, const Vec<U,M>& vecB);
+            template<typename TD, size_t ND> friend TD dot(const Vec<TD,ND>& vecA, const Vec<TD,ND>& vecB);
         
         private:
             std::array<T, N> v_;
@@ -83,10 +83,10 @@ namespace my {
         return Vec(neg);
     }
 
-    template<typename U, size_t M>
-    U dot( Vec<U,M> const& vecA, Vec<U,M> const& vecB)
+    template<typename TD, size_t ND>
+    TD dot( Vec<TD,ND> const& vecA, Vec<TD,ND> const& vecB)
     {
-        U f = std::inner_product(vecA.v_.begin(), vecA.v_.end(), vecB.v_.begin(), 0);
+        TD f = std::inner_product(vecA.v_.begin(), vecA.v_.end(), vecB.v_.begin(), 0);
         return f;
     };
 }
