@@ -78,10 +78,31 @@ void test_vec_13() {
         cout << "Length before" << endl;
         std::for_each(v.begin(), v.end(), [](const vec3f& v){cout << v.length() << endl;});
 
-        std::stable_partition(v.begin(), v.end(), [](vec3f v){ return v.length() > 90;});
+        std::stable_partition(v.begin(), v.end(), [](const vec3f& v){ return v.length() < 90;});
 
         cout << "Length after" << endl;
         std::for_each(v.begin(), v.end(), [](const vec3f& v){cout << v.length() << endl;});
+
+        cout << "Sort by length" << endl;
+        std::sort(v.begin(), v.end(), [](const vec3f& a, const vec3f& b){ return a.length() > b.length();});
+        std::for_each(v.begin(), v.end(), [](const vec3f& v){cout << v.length() << endl;});
+
+        cout << "Median info" << endl;
+        vec3f median = v[4];
+        cout << "Values: " << median << ", Length: " << median.length() << endl;
+
+        cout << "copy <80 to new container" << endl;
+
+        std::vector<vec3f> copy80;
+        std::copy_if(v.begin(), v.end(), back_inserter(copy80), [](const vec3f& v){return v.length() < 80;});
+        info(copy80);
+
+        cout << "remove all elemtes >90 && <120 from original" << endl;
+        info(v);
+        cout << endl;
+        auto to_be_erased = remove_if(v.begin(), v.end(), [](const vec3f& v) {return v.length() < 90 && v.length() > 120;});
+        v.erase(v.end(), to_be_erased);
+        info(v);
 
     }
     
