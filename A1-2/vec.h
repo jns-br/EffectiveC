@@ -121,6 +121,8 @@ namespace my {
     template<typename TD, size_t ND>
     void info(const std::vector<Vec<TD,ND>>& vector)
     {
+        std::cout << "Number of Elements in container: " << vector.size() << std::endl;
         std::for_each(vector.begin(), vector.end(), [] (Vec<TD,ND> val) {std::cout << "Values: " << val << ", Length: " << val.length() << std::endl;});
+        std::cout << std::endl;
     }
 }

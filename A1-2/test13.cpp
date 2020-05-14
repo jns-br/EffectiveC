@@ -14,95 +14,113 @@ void test_vec_13() {
 
 #ifndef NDEBUG
     cout << "======================" << endl;
-    cout << "     Testing Vec      " << endl;
+    cout << "    Own Vec Testing   " << endl;
     cout << "======================" << endl;
 
     using vec3f = Vec<float,3>;
-
-    {
-        // do not tolerate any memory overhead
-        cout << "  sizeof(Vec3f) == 3 bytes: ";
-        assert( sizeof(vec3f) == 3*sizeof(float) );
-        cout << "passed." << endl;
-    }
     
     {
-        cout << " length method ";
-        vec3f a({4, 4, 4});
-        cout << a.length() << endl;
+        cout << "Testing length method " << endl;
+        vec3f a({1, 2, 2});
+        cout << "Length of vec3f: " << a.length() << endl;
+        assert(a.length() == 3);
+        cout << "passed" << endl;
+        cout << endl;
     }
 
     {
-        cout << "operator << ";
+        cout << "Testing operator << " << endl;
         vec3f a({4, 4, 4});
-        cout << a << endl;
+        cout << "Values of vec3f: " << a << endl;
+        cout << endl;
     }
 
     {
-        cout << "info test ";
+        cout << "Testing container info method" << endl;
         vec3f a ({1, 2, 3});
         vec3f b ({4, 5, 6});
         vector<vec3f> v = {a, b};
         info(v);
-        cout << "passed" 
-        << endl;
+        cout << endl;
     }
 
     {
-        cout << "Add 10 vec3fs to vector" << endl;
-        std::vector<vec3f> v(10);
+        cout << "Add 10 vec3fs with random floats to vector" << endl;
+        vector<vec3f> v(10);
     
-        
-        std::random_device rd;
-        std::mt19937 e2(rd());
-        std::uniform_real_distribution<> dist(0, 101);
+        random_device rd;
+        mt19937 e2(rd());
+        uniform_real_distribution<> dist(0, 101);
 
         auto randomVec = [&e2, &dist]() 
         {
             return vec3f({(float) dist(e2), (float) dist(e2), (float) dist(e2)});
         };
 
-        std::generate(v.begin(), v.end(), randomVec);
+        generate(v.begin(), v.end(), randomVec);
 
-        std::for_each(v.begin(), v.end(), [](const vec3f& v){cout << v << endl;});
+        info(v);
+        cout << endl;
 
         cout << "Add One" << endl;
 
+        vector<vec3f> vCopy(v);
+
         vec3f oneVec({1, 1, 1});
         auto addOne = [&oneVec](vec3f& v) {return v += oneVec;};
-        std::transform(v.begin(), v.end(), v.begin(), addOne);
+        transform(v.begin(), v.end(), v.begin(), addOne);
+
+        cout << endl;
+        cout << "Testing addition" << endl;
+        int counter = 0;
+        auto comp = [&counter, &vCopy, &oneVec](const vec3f& val) 
+        {
+            assert(vCopy[counter] + oneVec == val);
+            counter++;
+        };
         
-        std::for_each(v.begin(), v.end(), [](const vec3f& v){cout << v << endl;});
+        for_each(v.begin(), v.end(), comp);
+        cout << "Addition test passed" << endl;
+        cout << endl;
 
-        cout << "Partition" << endl;
-        cout << "Length before" << endl;
-        std::for_each(v.begin(), v.end(), [](const vec3f& v){cout << v.length() << endl;});
+        cout << "Partition container by length <90" << endl;
+        cout << "Container before partitioning" << endl;
+        info(v);
 
-        std::stable_partition(v.begin(), v.end(), [](const vec3f& v){ return v.length() < 90;});
+        stable_partition(v.begin(), v.end(), [](const vec3f& v){ return v.length() < 90;});
 
-        cout << "Length after" << endl;
-        std::for_each(v.begin(), v.end(), [](const vec3f& v){cout << v.length() << endl;});
+        cout << "Container after partitioning" << endl;
+        info(v);
+        cout << endl;
 
         cout << "Sort by length" << endl;
-        std::sort(v.begin(), v.end(), [](const vec3f& a, const vec3f& b){ return a.length() > b.length();});
-        std::for_each(v.begin(), v.end(), [](const vec3f& v){cout << v.length() << endl;});
+        sort(v.begin(), v.end(), [](const vec3f& a, const vec3f& b){ return a.length() > b.length();});
+        info(v);
 
         cout << "Median info" << endl;
         vec3f median = v[4];
         cout << "Values: " << median << ", Length: " << median.length() << endl;
+        cout << endl;
 
-        cout << "copy <80 to new container" << endl;
-
-        std::vector<vec3f> copy80;
-        std::copy_if(v.begin(), v.end(), back_inserter(copy80), [](const vec3f& v){return v.length() < 80;});
+        cout << "Copy <80 to new container" << endl;
+        vector<vec3f> copy80;
+        copy_if(v.begin(), v.end(), back_inserter(copy80), [](const vec3f& v){return v.length() < 80;});
         info(copy80);
 
-        cout << "remove all elemtes >90 && <120 from original" << endl;
-        info(v);
+        cout << "Testing copy container" << endl;
+        for_each(copy80.begin(), copy80.end(), [](const vec3f& val) {assert(val.length() < 80);});
+        cout << "Copy container test passed" << endl;
         cout << endl;
-        auto to_be_erased = remove_if(v.begin(), v.end(), [](const vec3f& v) {return v.length() < 90 && v.length() > 120;});
-        v.erase(v.end(), to_be_erased);
+
+        cout << "remove all elemtes with length >90 && <120 from original" << endl;
+        cout << endl;
+        auto to_be_erased = remove_if(v.begin(), v.end(), [](const vec3f& val) {return val.length() > 90 && val.length() < 120;});
+        v.erase(to_be_erased, v.end());
         info(v);
+
+        cout << "testing removal of elements" << endl;
+        for_each(v.begin(), v.end(), [](const vec3f& val) {assert(val.length() < 90 || val.length() > 120);});
+        cout << "removal test passed" << endl;
 
     }
     
