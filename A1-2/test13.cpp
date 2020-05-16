@@ -116,6 +116,7 @@ void test_vec_13() {
         cout << endl;
         auto to_be_erased = remove_if(v.begin(), v.end(), [](const vec3f& val) {return val.length() > 90 && val.length() < 120;});
         v.erase(to_be_erased, v.end());
+        v.shrink_to_fit();
         info(v);
 
         cout << "testing removal of elements" << endl;
