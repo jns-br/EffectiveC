@@ -14,7 +14,7 @@ namespace my {
             bool empty() const;
             size_t size() const;
             void clear();
-            void change_capacity(size_t new_cap)
+            void change_capacity(size_t new_cap);
             void push_back(const T& val);
         private:
             T* data_;
@@ -72,7 +72,7 @@ namespace my {
         }
 
         T* tmp = new T[new_cap];
-        if(new_cap >= this->size_)
+        if(new_cap > this->size_)
         {
             for(int i = 0; i < this->size_; ++i)
             {
@@ -81,7 +81,7 @@ namespace my {
         } 
         else
         {
-            for(int i = 0, i < new_cap; ++i) 
+            for(int i = 0; i < new_cap; ++i) 
             {
                 tmp[i] = this->data_[i];
             }
@@ -93,6 +93,15 @@ namespace my {
         
     } 
 
-    
+    template<typename T>
+    void vector<T>::push_back(const T& val)
+    {
+        if (this->size_ == this->capacity)
+        {
+            change_capacity(this->capacity_ + 1);
+        }
+
+        this->data_[this->size_++] = val;
+    }
 
 }
