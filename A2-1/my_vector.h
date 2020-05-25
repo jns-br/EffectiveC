@@ -104,7 +104,7 @@ namespace my {
     template<typename T>
     void vector<T>::push_back(const T& val)
     {
-        if (this->size_ == this->capacity)
+        if (this->size_ == this->capacity_)
         {
             change_capacity(this->capacity_ + 1);
         }
@@ -139,20 +139,20 @@ namespace my {
         }
         else
         {
-            return this->data_[i];
+            return this->data_[index];
         }
     }
 
     template<typename T>
     T& vector<T>::at(size_t index)
     {
-        if (index > this->size - 1)
+        if (index > this->size_ - 1)
         {
             throw std::out_of_range("Index out of range");
         }
         else
         {
-            return this->data_[i];
+            return this->data_[index];
         }
         
     }
