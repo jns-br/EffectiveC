@@ -21,6 +21,9 @@ namespace my {
             T& operator[](size_t index);
             T at(size_t index) const;
             T& at(size_t index);
+
+            vector(vector<T> const &) = delete;
+            vector<T>& operator=(vector<T> const &) = delete;
         private:
             T* data_;
             size_t size_;
