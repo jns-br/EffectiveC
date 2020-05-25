@@ -19,6 +19,8 @@ namespace my {
             T pop_back();
             T operator[](size_t index) const;
             T& operator[](size_t index);
+            T at(size_t index) const;
+            T& at(size_t index);
         private:
             T* data_;
             size_t size_;
@@ -123,6 +125,33 @@ namespace my {
     T& vector<T>::operator[](size_t index)
     {
         return this->data_[index];
+    }
+
+    template<typename T>
+    T vector<T>::at(size_t index) const
+    {
+        if (index > this->size_ - 1)
+        {
+            throw std::out_of_range("Index out of range");
+        }
+        else
+        {
+            return this->data_[i];
+        }
+    }
+
+    template<typename T>
+    T& vector<T>::at(size_t index)
+    {
+        if (index > this->size - 1)
+        {
+            throw std::out_of_range("Index out of range");
+        }
+        else
+        {
+            return this->data_[i];
+        }
+        
     }
 
 }
