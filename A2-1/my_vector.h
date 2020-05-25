@@ -12,7 +12,9 @@ namespace my {
             vector(const size_t& n, const T& val);
             ~vector();
             bool empty() const;
+            size_t size() const;
             void clear();
+            void push_back(const T& val);
         private:
             T* data_;
             size_t size_;
@@ -49,9 +51,21 @@ namespace my {
     }
 
     template<typename T>
-    void vector<T>::clear() 
+    void vector<T>::clear()
     {
         this->size_ = 0;
+    }
+
+    template<typename T>
+    size_t vector<T>::size() const
+    {
+        return this->size_;
+    } 
+
+    template<typename T>
+    void vector<T>::push_back(const T& val)
+    {
+
     }
 
 }
