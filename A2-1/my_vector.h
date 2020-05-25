@@ -44,7 +44,7 @@ namespace my {
     template<typename T>
     bool vector<T>::empty() const
     {
-
+        return this->size_ == 0;
     }
 
 }
