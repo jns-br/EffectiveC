@@ -14,13 +14,13 @@ namespace my {
             bool empty() const;
             size_t size() const;
             void clear();
-            void change_capacity(size_t new_cap);
+            void change_capacity(const size_t& new_cap);
             void push_back(const T& val);
             T pop_back();
-            T operator[](size_t index) const;
-            T& operator[](size_t index);
-            T at(size_t index) const;
-            T& at(size_t index);
+            T operator[](const size_t& index) const;
+            T& operator[](const size_t& index);
+            T at(const size_t& index) const;
+            T& at(const size_t& index);
 
             vector(vector<T> const &) = delete;
             vector<T>& operator=(vector<T> const &) = delete;
@@ -72,7 +72,7 @@ namespace my {
     }
 
     template<typename T>
-    void vector<T>::change_capacity(size_t new_cap)
+    void vector<T>::change_capacity(const size_t& new_cap)
     {
         if(new_cap == this->capacity_) 
         {
@@ -121,19 +121,19 @@ namespace my {
     }
 
     template<typename T>
-    T vector<T>::operator[](size_t index) const
+    T vector<T>::operator[](const size_t& index) const
     {
         return this->data_[index];
     }
 
     template<typename T>
-    T& vector<T>::operator[](size_t index)
+    T& vector<T>::operator[](const size_t& index)
     {
         return this->data_[index];
     }
 
     template<typename T>
-    T vector<T>::at(size_t index) const
+    T vector<T>::at(const size_t& index) const
     {
         if (index > this->size_ - 1)
         {
@@ -146,7 +146,7 @@ namespace my {
     }
 
     template<typename T>
-    T& vector<T>::at(size_t index)
+    T& vector<T>::at(const size_t& index)
     {
         if (index > this->size_ - 1)
         {
