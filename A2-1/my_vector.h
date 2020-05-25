@@ -17,6 +17,8 @@ namespace my {
             void change_capacity(size_t new_cap);
             void push_back(const T& val);
             T pop_back();
+            T operator[](size_t index) const;
+            T& operator[](size_t index);
         private:
             T* data_;
             size_t size_;
@@ -109,6 +111,18 @@ namespace my {
     T vector<T>::pop_back()
     {
         return this->data_[--this->size_];
+    }
+
+    template<typename T>
+    T vector<T>::operator[](size_t index) const
+    {
+        return this->data_[index];
+    }
+
+    template<typename T>
+    T& vector<T>::operator[](size_t index)
+    {
+        return this->data_[index];
     }
 
 }
