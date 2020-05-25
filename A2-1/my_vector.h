@@ -12,6 +12,7 @@ namespace my {
             vector(const size_t& n, const T& val);
             ~vector();
             bool empty() const;
+            void clear();
         private:
             T* data_;
             size_t size_;
@@ -45,6 +46,12 @@ namespace my {
     bool vector<T>::empty() const
     {
         return this->size_ == 0;
+    }
+
+    template<typename T>
+    void vector<T>::clear() 
+    {
+        this->size_ = 0;
     }
 
 }
