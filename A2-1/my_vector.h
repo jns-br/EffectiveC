@@ -115,7 +115,9 @@ namespace my {
     template<typename T>
     T vector<T>::pop_back()
     {
-        return this->data_[--this->size_];
+        T val = this->data_[--this->size_];
+        change_capacity(this->capacity_ - 1);
+        return val;
     }
 
     template<typename T>
