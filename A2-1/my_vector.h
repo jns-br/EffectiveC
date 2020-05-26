@@ -14,7 +14,7 @@ namespace my {
             bool empty() const;
             size_t size() const;
             void clear();
-            void change_capacity(const size_t& new_cap);
+            void change_size(const size_t& new_size);
             void push_back(const T& val);
             T pop_back();
             T operator[](const size_t& index) const;
@@ -27,18 +27,16 @@ namespace my {
         private:
             T* data_;
             size_t size_;
-            size_t capacity_;
-
     };
     
     template<typename T>
-    vector<T>::vector() : data_(new T[0]), size_(0), capacity_(0) {}
+    vector<T>::vector() : data_(new T[0]), size_(0) {}
 
     template<typename T>
-    vector<T>::vector(const size_t& n) : data_(new T[n]), size_(0), capacity_(n)  {}
+    vector<T>::vector(const size_t& n) : data_(new T[n]), size_(0)  {}
 
     template<typename T>
-    vector<T>::vector(const size_t& n, const T& val) : data_(new T[n]), size_(n), capacity_(n)
+    vector<T>::vector(const size_t& n, const T& val) : data_(new T[n]), size_(n)
     {
         for (int i = 0; i < n; i++)
         {
@@ -62,6 +60,7 @@ namespace my {
     template<typename T>
     void vector<T>::clear()
     {
+        delete[] this->data_; 
         this->size_ = 0;
     }
 
@@ -72,30 +71,27 @@ namespace my {
     }
 
     template<typename T>
-    void vector<T>::change_capacity(const size_t& new_cap)
+    void vector<T>::change_size(const size_t& new_size)
     {
-        if(new_cap == this->capacity_) 
-        {
-            return;
-        }
-
-        T* tmp = new T[new_cap];
-        if(new_cap > this->size_)
+        
+        T* tmp = new T[new_size];
+        if (new_size >= this->size_)
         {
             for(int i = 0; i < this->size_; ++i)
             {
                 tmp[i] = this->data_[i];
             }
-        } 
+        }
         else
         {
-            for(int i = 0; i < new_cap; ++i) 
+            for(int i = 0; i < new_size; ++i)
             {
                 tmp[i] = this->data_[i];
             }
         }
+        
 
-        this->capacity_ = new_cap;
+        this->size_ = new_size;
         delete[] this->data_;
         this->data_ = tmp;
         
@@ -104,19 +100,17 @@ namespace my {
     template<typename T>
     void vector<T>::push_back(const T& val)
     {
-        if (this->size_ == this->capacity_)
-        {
-            change_capacity(this->capacity_ + 1);
-        }
+        
+        change_size(this->size_ + 1);
 
-        this->data_[this->size_++] = val;
+        this->data_[this->size_ - 1] = val;
     }
 
     template<typename T>
     T vector<T>::pop_back()
     {
-        T val = this->data_[--this->size_];
-        change_capacity(this->capacity_ - 1);
+        T val = this->data_[this->size_ - 1];
+        change_size(this->size_ - 1);
         return val;
     }
 
