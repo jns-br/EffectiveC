@@ -167,8 +167,9 @@ namespace my {
     template<typename T>
     T vector<T>::pop_back()
     {
-        T val = this->data_[this->size_ - 1];
-        change_size(this->size_ - 1);
+        this->size_--;
+        T val = this->data_[this->size_];
+        delete this->data_[this->size_];
         return val;
     }
 
