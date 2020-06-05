@@ -15,6 +15,7 @@ namespace my {
             size_t size() const;
             size_t capacity() const;
             void clear();
+            void reserve(const size_t& new_capacity);
             void change_size(const size_t& new_size);
             void push_back(const T& val);
             T pop_back();
@@ -29,17 +30,24 @@ namespace my {
             T* data_;
             size_t size_;
             size_t capacity_;
+            void* memory_;
     };
     
     template<typename T>
     vector<T>::vector() : data_(new T[0]), size_(0), capacity_(0) {}
 
     template<typename T>
-    vector<T>::vector(const size_t& n) : data_(new T[n]), size_(0), capacity_(n)  {}
+    vector<T>::vector(const size_t& n) : size_(0), capacity_(n)  
+    {
+        memory_ = malloc(sizeof(T) * n);
+        data_ = new(memory_) T[n];
+    }
 
     template<typename T>
     vector<T>::vector(const size_t& n, const T& val) : data_(new T[n]), size_(n), capacity_(n)
     {
+        memory_ = malloc(sizeof(T) * n);
+        data_ = new(memory_) T[n];
         for (int i = 0; i < n; i++)
         {
             this->data_[i] = val;
@@ -51,19 +59,13 @@ namespace my {
     vector<T>::~vector()
     {
         delete[] data_;
+        free(memory_);
     }
 
     template<typename T>
     bool vector<T>::empty() const
     {
         return this->size_ == 0;
-    }
-
-    template<typename T>
-    void vector<T>::clear()
-    {
-        delete[] this->data_; 
-        this->size_ = 0;
     }
 
     template<typename T>
@@ -76,6 +78,41 @@ namespace my {
     size_t vector<T>::capacity() const
     {
         return this->capacity_;
+    }
+
+    template<typename T>
+    void vector<T>::reserve(const size_t& new_capacity)
+    {
+        T tmp = this->data_;
+        delete[] this->data_;
+        free(memory_);
+        memory_ = malloc(sizeof(T) * new_capacity);
+        this->data_ = new(memory_) T[new_capacity];
+
+        if (new_capacity >= this->size_)
+        {
+            for (int i = 0; i < this->size_; i++)
+            {
+                this->data_[i] = tmp[i];
+            }
+        } 
+        else
+        {
+            for (int i = 0; i < new_capacity; i++)
+            {
+                this->data_[i] = tmp[i];
+            }
+            this->size_ = new_capacity;
+        }
+
+        this->capacity_ = new_capacity;
+    }
+
+    template<typename T>
+    void vector<T>::clear()
+    {
+        delete[] this->data_; 
+        this->size_ = 0;
     }
 
     template<typename T>
