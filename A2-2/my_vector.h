@@ -155,8 +155,11 @@ namespace my {
     template<typename T>
     void vector<T>::push_back(const T& val)
     {
-        
-        change_size(this->size_ + 1);
+        this->size_++;
+        if (this->size_ > this->capacity_)
+        {
+            reserve(this->size_);
+        }
 
         this->data_[this->size_ - 1] = val;
     }
