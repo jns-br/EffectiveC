@@ -13,6 +13,7 @@ namespace my {
             ~vector();
             bool empty() const;
             size_t size() const;
+            size_t capacity() const;
             void clear();
             void change_size(const size_t& new_size);
             void push_back(const T& val);
@@ -69,6 +70,12 @@ namespace my {
     size_t vector<T>::size() const
     {
         return this->size_;
+    }
+
+    template<typename T>
+    size_t vector<T>::capacity() const
+    {
+        return this->capacity_;
     }
 
     template<typename T>
