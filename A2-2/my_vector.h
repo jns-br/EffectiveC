@@ -16,6 +16,7 @@ namespace my {
             size_t capacity() const;
             void clear();
             void reserve(const size_t& new_capacity);
+            void shrink_to_fit();
             void change_size(const size_t& new_size);
             void push_back(const T& val);
             T pop_back();
@@ -106,6 +107,15 @@ namespace my {
         }
 
         this->capacity_ = new_capacity;
+    }
+
+    template<typename T>
+    void vector<T>::shrink_to_fit()
+    {
+        if(this->capacity_ > this->size_)
+        {
+            reserve(this->size_);
+        }
     }
 
     template<typename T>
