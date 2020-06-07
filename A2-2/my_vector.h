@@ -12,6 +12,7 @@ namespace my {
             vector(const size_t& n);
             vector(const size_t& n, const T& val);
             vector(const vector<T>& vector);
+            vector(vector<T>&& vector);
             ~vector();
             bool empty() const;
             size_t size() const;
@@ -28,9 +29,6 @@ namespace my {
             T& at(const size_t& index);
 
             template<typename X> friend void swap(vector<X>& a, vector<X>& b);
-
-            vector(vector<T> const &) = delete;
-            vector<T>& operator=(vector<T> const &) = delete;
         private:
             T* data_;
             size_t size_;
@@ -61,7 +59,13 @@ namespace my {
     }
 
     template<typename T>
-    vector<T>::vector(const vector<T>& vector) : data_(*vector.data_), size_(vector.size_), capacity_(vector.capacity_), memory_(*vector.memory_) {} 
+    vector<T>::vector(const vector<T>& vector) : data_(*vector.data_), size_(vector.size_), capacity_(vector.capacity_), memory_(*vector.memory_) {}
+
+    template<typename T>
+    vector<T>::vector(vector<T>&& vector) : vector<T>()
+    {
+        swap(*this, vector);
+    } 
 
     template<typename T>
     vector<T>::~vector()
