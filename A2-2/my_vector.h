@@ -38,7 +38,13 @@ namespace my {
     };
     
     template<typename T>
-    vector<T>::vector() : data_(nullptr), size_(0), capacity_(0) {}
+    vector<T>::vector()
+    {
+        data_ = nullptr;
+        size_ = 0;
+        capacity_ = 0;
+        memory_ = nullptr;
+    }
 
     template<typename T>
     vector<T>::vector(const size_t& n) : size_(0), capacity_(n)  
@@ -62,12 +68,13 @@ namespace my {
     template<typename T>
     vector<T>::vector(const vector<T>& vector) : data_(*vector.data_), size_(vector.size_), capacity_(vector.capacity_), memory_(*vector.memory_) {}
 
+/*
     template<typename T>
     vector<T>::vector(vector<T>&& vector) : vector<T>()
     {
         swap(*this, vector);
     } 
-
+*/
     template<typename T>
     vector<T>::~vector()
     {
@@ -181,7 +188,7 @@ namespace my {
     {
         this->size_--;
         T val = this->data_[this->size_];
-        delete data_[this->size_];
+        val.~T();
         return val;
     }
 

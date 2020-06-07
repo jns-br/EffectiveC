@@ -9,10 +9,12 @@ void test_21();
 
 int main()
 {
+
+
+  
     cout << "Starting tests (2.1) --------------------" << endl;
     test_21();
-
-#if 0
+#if 0  
     cout << "Starting tests (2.2) --------------------" << endl;
     test_22();
 #endif
