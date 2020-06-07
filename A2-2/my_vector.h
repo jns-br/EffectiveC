@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <utility>
 
 namespace my {
     template<typename T>
@@ -25,6 +26,8 @@ namespace my {
             T at(const size_t& index) const;
             T& at(const size_t& index);
 
+            template<typename X> friend void swap(vector<X>& a, vector<X>& b);
+
             vector(vector<T> const &) = delete;
             vector<T>& operator=(vector<T> const &) = delete;
         private:
@@ -35,7 +38,7 @@ namespace my {
     };
     
     template<typename T>
-    vector<T>::vector() : data_(new T[0]), size_(0), capacity_(0) {}
+    vector<T>::vector() : data_(nullptr), size_(0), capacity_(0) {}
 
     template<typename T>
     vector<T>::vector(const size_t& n) : size_(0), capacity_(n)  
@@ -45,7 +48,7 @@ namespace my {
     }
 
     template<typename T>
-    vector<T>::vector(const size_t& n, const T& val) : data_(new T[n]), size_(n), capacity_(n)
+    vector<T>::vector(const size_t& n, const T& val) : size_(n), capacity_(n)
     {
         memory_ = malloc(sizeof(T) * n);
         data_ = new(memory_) T[n];
@@ -84,7 +87,7 @@ namespace my {
     template<typename T>
     void vector<T>::reserve(const size_t& new_capacity)
     {
-        T tmp = this->data_;
+        auto tmp = this->data_;
         delete[] this->data_;
         free(memory_);
         memory_ = malloc(sizeof(T) * new_capacity);
@@ -169,7 +172,7 @@ namespace my {
     {
         this->size_--;
         T val = this->data_[this->size_];
-        delete this->data_[this->size_];
+        delete data_[this->size_];
         return val;
     }
 
@@ -210,6 +213,15 @@ namespace my {
             return this->data_[index];
         }
         
+    }
+
+    template<typename X>
+    void swap(vector<X>& a, vector<X>& b)
+    {
+        swap(a.data_, b.data_);
+        swap(a.size_, b.size_);
+        swap(a.capacity_, b.capacity_);
+        swap(a.memory_, b.memory_);
     }
 
 }
