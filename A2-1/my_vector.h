@@ -30,7 +30,7 @@ namespace my {
     };
     
     template<typename T>
-    vector<T>::vector() : data_(new T[0]), size_(0) {}
+    vector<T>::vector() : data_(nullptr), size_(0) {}
 
     template<typename T>
     vector<T>::vector(const size_t& n) : data_(new T[n]), size_(0)  {}
