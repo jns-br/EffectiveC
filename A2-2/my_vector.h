@@ -59,7 +59,7 @@ namespace my {
         data_ = new(memory_) T[n];
         for (int i = 0; i < n; i++)
         {
-            this->data_[i] = val;
+            data_[i] = val;
         }
         
     }
@@ -84,82 +84,82 @@ namespace my {
     template<typename T>
     bool vector<T>::empty() const
     {
-        return this->size_ == 0;
+        return size_ == 0;
     }
 
     template<typename T>
     size_t vector<T>::size() const
     {
-        return this->size_;
+        return size_;
     }
 
     template<typename T>
     size_t vector<T>::capacity() const
     {
-        return this->capacity_;
+        return capacity_;
     }
 
     template<typename T>
     void vector<T>::reserve(const size_t& new_capacity)
     {
-        auto tmp = this->data_;
-        delete[] this->data_;
+        auto tmp = data_;
+        delete[] data_;
         free(memory_);
         memory_ = malloc(sizeof(T) * new_capacity);
-        this->data_ = new(memory_) T[new_capacity];
+        data_ = new(memory_) T[new_capacity];
 
-        if (new_capacity >= this->size_)
+        if (new_capacity >= size_)
         {
-            for (int i = 0; i < this->size_; i++)
+            for (int i = 0; i < size_; i++)
             {
-                this->data_[i] = tmp[i];
+                data_[i] = tmp[i];
             }
         } 
         else
         {
             for (int i = 0; i < new_capacity; i++)
             {
-                this->data_[i] = tmp[i];
+                data_[i] = tmp[i];
             }
-            this->size_ = new_capacity;
+            size_ = new_capacity;
         }
 
-        this->capacity_ = new_capacity;
+        capacity_ = new_capacity;
     }
 
     template<typename T>
     void vector<T>::shrink_to_fit()
     {
-        if(this->capacity_ > this->size_)
+        if(capacity_ > size_)
         {
-            reserve(this->size_);
+            reserve(size_);
         }
     }
 
     template<typename T>
     void vector<T>::clear()
     {
-        delete[] this->data_; 
-        this->size_ = 0;
+        delete[] data_; 
+        size_ = 0;
     }
 
     template<typename T>
     void vector<T>::push_back(const T& val)
     {
-        this->size_++;
-        if (this->size_ > this->capacity_)
+        size_++;
+        if (size_ > capacity_)
         {
-            reserve(this->size_);
+            reserve(size_);
         }
 
-        this->data_[this->size_ - 1] = val;
+        data_[size_ - 1] = val;
     }
 
     template<typename T>
     T vector<T>::pop_back()
     {
-        this->size_--;
-        T val = this->data_[this->size_];
+        size_--;
+        T val = data_[size_];
         val.~T();
         return val;
     }
@@ -167,13 +167,13 @@ namespace my {
     template<typename T>
     T vector<T>::operator[](const size_t& index) const
     {
-        return this->data_[index];
+        return data_[index];
     }
 
     template<typename T>
     T& vector<T>::operator[](const size_t& index)
     {
-        return this->data_[index];
+        return data_[index];
     }
 
     template<typename T>
@@ -186,26 +186,26 @@ namespace my {
     template<typename T>
     T vector<T>::at(const size_t& index) const
     {
-        if (index > this->size_ - 1)
+        if (index >size_ - 1)
         {
             throw std::out_of_range("Index out of range");
         }
         else
         {
-            return this->data_[index];
+            return data_[index];
         }
     }
 
     template<typename T>
     T& vector<T>::at(const size_t& index)
     {
-        if (index > this->size_ - 1)
+        if (index > size_ - 1)
         {
             throw std::out_of_range("Index out of range");
         }
         else
         {
-            return this->data_[index];
+            return data_[index];
         }
         
     }
