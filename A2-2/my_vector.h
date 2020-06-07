@@ -25,6 +25,7 @@ namespace my {
             T pop_back();
             T operator[](const size_t& index) const;
             T& operator[](const size_t& index);
+            T& operator=(vector<T> vector);
             T at(const size_t& index) const;
             T& at(const size_t& index);
 
@@ -194,6 +195,13 @@ namespace my {
     T& vector<T>::operator[](const size_t& index)
     {
         return this->data_[index];
+    }
+
+    template<typename T>
+    T& vector<T>::operator=(vector<T> vector)
+    {
+        swap(*this, vector);
+        return *this;
     }
 
     template<typename T>
