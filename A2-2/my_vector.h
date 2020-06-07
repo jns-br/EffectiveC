@@ -20,7 +20,6 @@ namespace my {
             void clear();
             void reserve(const size_t& new_capacity);
             void shrink_to_fit();
-            void change_size(const size_t& new_size);
             void push_back(const T& val);
             T pop_back();
             T operator[](const size_t& index) const;
@@ -143,33 +142,6 @@ namespace my {
         delete[] this->data_; 
         this->size_ = 0;
     }
-
-    template<typename T>
-    void vector<T>::change_size(const size_t& new_size)
-    {
-        
-        T* tmp = new T[new_size];
-        if (new_size >= this->size_)
-        {
-            for(int i = 0; i < this->size_; ++i)
-            {
-                tmp[i] = this->data_[i];
-            }
-        }
-        else
-        {
-            for(int i = 0; i < new_size; ++i)
-            {
-                tmp[i] = this->data_[i];
-            }
-        }
-        
-
-        this->size_ = new_size;
-        delete[] this->data_;
-        this->data_ = tmp;
-        
-    } 
 
     template<typename T>
     void vector<T>::push_back(const T& val)
