@@ -11,6 +11,7 @@ namespace my {
             vector();
             vector(const size_t& n);
             vector(const size_t& n, const T& val);
+            vector(const vector<T>& vector);
             ~vector();
             bool empty() const;
             size_t size() const;
@@ -57,7 +58,10 @@ namespace my {
             this->data_[i] = val;
         }
         
-    } 
+    }
+
+    template<typename T>
+    vector<T>::vector(const vector<T>& vector) : data_(*vector.data_), size_(vector.size_), capacity_(vector.capacity_), memory_(*vector.memory_) {} 
 
     template<typename T>
     vector<T>::~vector()
