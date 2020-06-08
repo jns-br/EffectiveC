@@ -27,6 +27,7 @@ void test_21()
         }
 
         // are the elements destroyed?
+         cout << "P count " << Payload::count() << endl;
         assert(Payload::count() == 0);
         cout << " done." << endl;
     }
@@ -39,8 +40,9 @@ void test_21()
             vector<Payload> v;
             assert(v.size() == 0);
             assert(v.empty());
-
             v.push_back(Payload(0,0,0));
+            cout << "ahhhhhhhh" << endl;
+
             v.push_back(Payload(1,1,1));
             v.push_back(Payload(2,2,2));
             assert(v.size() == 3);

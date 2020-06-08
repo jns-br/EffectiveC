@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <utility>
+#include <algorithm>
 
 namespace my {
     template<typename T>
@@ -75,7 +76,13 @@ namespace my {
     template<typename T>
     vector<T>::~vector()
     {
-        data_->~T();
+        auto del = [](T& val) {val.~T();};
+        for (int i = 0; i < size_; i++)
+        {
+            data_[i].~T();
+        }
+        
+        //data_->~T();
         free(data_);
     }
 
@@ -102,7 +109,11 @@ namespace my {
     {
         
         vector<T> tmp = vector<T>(*this);
-        data_->~T();
+        for(int i = 0; i < size_; i++)
+        {
+            data_[i].~T();
+        }
+        //data_->~T();
         free(data_);
         data_ = static_cast<T*> (malloc(sizeof(T[new_capacity])));
         new(data_) T[new_capacity];
@@ -141,7 +152,7 @@ namespace my {
     template<typename T>
     void vector<T>::clear()
     {
-        delete[] data_; 
+        data_->~T(); 
         size_ = 0;
     }
 
@@ -215,10 +226,9 @@ namespace my {
     template<typename X>
     void swap(vector<X>& a, vector<X>& b)
     {
-        swap(a.data_, b.data_);
-        swap(a.size_, b.size_);
-        swap(a.capacity_, b.capacity_);
-        swap(a.memory_, b.memory_);
+        std::swap(a.data_, b.data_);
+        std::swap(a.size_, b.size_);
+        std::swap(a.capacity_, b.capacity_);
     }
 
 }
