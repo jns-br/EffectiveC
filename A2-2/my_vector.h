@@ -37,12 +37,7 @@ namespace my {
     };
     
     template<typename T>
-    vector<T>::vector()
-    {
-        data_ = nullptr;
-        size_ = 0;
-        capacity_ = 0;
-    }
+    vector<T>::vector() : data_(nullptr), size_(0), capacity_(0) {}
 
     template<typename T>
     vector<T>::vector(const size_t& n) : size_(0), capacity_(n)  
@@ -64,7 +59,16 @@ namespace my {
     }
 
     template<typename T>
-    vector<T>::vector(const vector<T>& vector) : data_(new T(*vector.data_)), size_(vector.size_), capacity_(vector.capacity_) {}
+    vector<T>::vector(const vector<T>& vector) : /*data_(new T(*vector.data_)),*/ size_(vector.size_), capacity_(vector.capacity_) 
+    {
+        data_ = static_cast<T*>(malloc(sizeof(*vector.data_)));
+        new(data_) T[vector.capacity_];
+
+        for (int i = 0; i < vector.size_; i++)
+        {
+            data_[i] = vector[i];
+        }
+    }
 
 /*
     template<typename T>
@@ -76,12 +80,10 @@ namespace my {
     template<typename T>
     vector<T>::~vector()
     {
-        auto del = [](T& val) {val.~T();};
         for (int i = 0; i < size_; i++)
         {
             data_[i].~T();
         }
-        
         //data_->~T();
         free(data_);
     }
