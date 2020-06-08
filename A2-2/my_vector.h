@@ -65,7 +65,7 @@ namespace my {
     }
 
     template<typename T>
-    vector<T>::vector(const vector<T>& vector) : data_(*vector.data_), size_(vector.size_), capacity_(vector.capacity_), memory_(*vector.memory_) {}
+    vector<T>::vector(const vector<T>& vector) : data_(new T(*vector.data_)), size_(vector.size_), capacity_(vector.capacity_), memory_(*vector.memory_) {}
 
 /*
     template<typename T>
@@ -102,6 +102,7 @@ namespace my {
     template<typename T>
     void vector<T>::reserve(const size_t& new_capacity)
     {
+        
         auto tmp = data_;
         delete[] data_;
         free(memory_);
@@ -125,6 +126,9 @@ namespace my {
         }
 
         capacity_ = new_capacity;
+        
+        //auto tmp = vector<T>(*this);
+
     }
 
     template<typename T>
