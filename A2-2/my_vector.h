@@ -33,7 +33,6 @@ namespace my {
             T* data_;
             size_t size_;
             size_t capacity_;
-            void* memory_;
     };
     
     template<typename T>
@@ -42,21 +41,20 @@ namespace my {
         data_ = nullptr;
         size_ = 0;
         capacity_ = 0;
-        memory_ = nullptr;
     }
 
     template<typename T>
     vector<T>::vector(const size_t& n) : size_(0), capacity_(n)  
     {
-        memory_ = malloc(sizeof(T) * n);
-        data_ = new(memory_) T[n];
+        data_ = static_cast<T*>(malloc(sizeof(T[n])));
+        new(data_) T[n];
     }
 
     template<typename T>
     vector<T>::vector(const size_t& n, const T& val) : size_(n), capacity_(n)
     {
-        memory_ = malloc(sizeof(T) * n);
-        data_ = new(memory_) T[n];
+        data_ = static_cast<T*>(malloc(sizeof(T[n])));
+        new(data_) T[n];
         for (int i = 0; i < n; i++)
         {
             data_[i] = val;
@@ -65,7 +63,7 @@ namespace my {
     }
 
     template<typename T>
-    vector<T>::vector(const vector<T>& vector) : data_(new T(*vector.data_)), size_(vector.size_), capacity_(vector.capacity_), memory_(*vector.memory_) {}
+    vector<T>::vector(const vector<T>& vector) : data_(new T(*vector.data_)), size_(vector.size_), capacity_(vector.capacity_) {}
 
 /*
     template<typename T>
@@ -77,8 +75,8 @@ namespace my {
     template<typename T>
     vector<T>::~vector()
     {
-        delete[] data_;
-        free(memory_);
+        data_->~T();
+        free(data_);
     }
 
     template<typename T>
@@ -103,11 +101,11 @@ namespace my {
     void vector<T>::reserve(const size_t& new_capacity)
     {
         
-        auto tmp = data_;
-        delete[] data_;
-        free(memory_);
-        memory_ = malloc(sizeof(T) * new_capacity);
-        data_ = new(memory_) T[new_capacity];
+        vector<T> tmp = vector<T>(*this);
+        data_->~T();
+        free(data_);
+        data_ = static_cast<T*> (malloc(sizeof(T[new_capacity])));
+        new(data_) T[new_capacity];
 
         if (new_capacity >= size_)
         {
