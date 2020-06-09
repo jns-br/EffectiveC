@@ -40,7 +40,7 @@ namespace my {
     {
         for (int i = 0; i < n; i++)
         {
-            this->data_[i] = val;
+           data_[i] = val;
         }
         
     } 
@@ -54,20 +54,20 @@ namespace my {
     template<typename T>
     bool vector<T>::empty() const
     {
-        return this->size_ == 0;
+        return size_ == 0;
     }
 
     template<typename T>
     void vector<T>::clear()
     {
-        delete[] this->data_; 
-        this->size_ = 0;
+        delete[] data_; 
+        size_ = 0;
     }
 
     template<typename T>
     size_t vector<T>::size() const
     {
-        return this->size_;
+        return size_;
     }
 
     template<typename T>
@@ -75,25 +75,25 @@ namespace my {
     {
         
         T* tmp = new T[new_size];
-        if (new_size >= this->size_)
+        if (new_size >= size_)
         {
-            for(int i = 0; i < this->size_; ++i)
+            for(int i = 0; i < size_; ++i)
             {
-                tmp[i] = this->data_[i];
+                tmp[i] = data_[i];
             }
         }
         else
         {
             for(int i = 0; i < new_size; ++i)
             {
-                tmp[i] = this->data_[i];
+                tmp[i] = data_[i];
             }
         }
         
 
-        this->size_ = new_size;
-        delete[] this->data_;
-        this->data_ = tmp;
+        size_ = new_size;
+        delete[] data_;
+        data_ = tmp;
         
     } 
 
@@ -101,54 +101,54 @@ namespace my {
     void vector<T>::push_back(const T& val)
     {
         
-        change_size(this->size_ + 1);
+        change_size(size_ + 1);
 
-        this->data_[this->size_ - 1] = val;
+        data_[size_ - 1] = val;
     }
 
     template<typename T>
     T vector<T>::pop_back()
     {
-        T val = this->data_[this->size_ - 1];
-        change_size(this->size_ - 1);
+        T val = data_[size_ - 1];
+        change_size(size_ - 1);
         return val;
     }
 
     template<typename T>
     T vector<T>::operator[](const size_t& index) const
     {
-        return this->data_[index];
+        return data_[index];
     }
 
     template<typename T>
     T& vector<T>::operator[](const size_t& index)
     {
-        return this->data_[index];
+        return data_[index];
     }
 
     template<typename T>
     T vector<T>::at(const size_t& index) const
     {
-        if (index > this->size_ - 1)
+        if (index > size_ - 1)
         {
             throw std::out_of_range("Index out of range");
         }
         else
         {
-            return this->data_[index];
+            return data_[index];
         }
     }
 
     template<typename T>
     T& vector<T>::at(const size_t& index)
     {
-        if (index > this->size_ - 1)
+        if (index > size_ - 1)
         {
             throw std::out_of_range("Index out of range");
         }
         else
         {
-            return this->data_[index];
+            return data_[index];
         }
         
     }
