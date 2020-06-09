@@ -42,41 +42,41 @@ namespace my {
     template<typename T>
     vector<T>::vector(const size_t& n) : size_(0), capacity_(n)  
     {
-        data_ = static_cast<T*>(malloc(sizeof(T[n])));
-        new(data_) T[n];
+        data_ = static_cast<T*>(malloc(sizeof(T) * n));
     }
 
     template<typename T>
     vector<T>::vector(const size_t& n, const T& val) : size_(n), capacity_(n)
     {
-        data_ = static_cast<T*>(malloc(sizeof(T[n])));
-        new(data_) T[n];
+        data_ = static_cast<T*>(malloc(sizeof(T) * n));
         for (int i = 0; i < n; i++)
         {
-            data_[i] = val;
+            new(data_ + i) T(val); 
         }
         
     }
 
     template<typename T>
-    vector<T>::vector(const vector<T>& vector) : /*data_(new T(*vector.data_)),*/ size_(vector.size_), capacity_(vector.capacity_) 
+    vector<T>::vector(const vector<T>& vec) :  size_(vec.size_), capacity_(vec.capacity_) 
     {
-        data_ = static_cast<T*>(malloc(sizeof(*vector.data_)));
-        new(data_) T[vector.capacity_];
+        data_ = static_cast<T*>(malloc(sizeof(T)  * vec.capacity_));
 
-        for (int i = 0; i < vector.size_; i++)
+        
+        for (int i = 0; i < vec.size_; i++)
         {
-            data_[i] = vector[i];
+            new(data_ + i) T(vec[i]);
         }
+        
+        
     }
 
-/*
+
     template<typename T>
-    vector<T>::vector(vector<T>&& vector) : vector<T>()
+    vector<T>::vector(vector<T>&& vec) : vector<T>()
     {
-        swap(*this, vector);
+        swap(*this, vec);
     } 
-*/
+
     template<typename T>
     vector<T>::~vector()
     {
@@ -84,7 +84,7 @@ namespace my {
         {
             data_[i].~T();
         }
-        //data_->~T();
+
         free(data_);
     }
 
@@ -109,37 +109,35 @@ namespace my {
     template<typename T>
     void vector<T>::reserve(const size_t& new_capacity)
     {
-        
         vector<T> tmp = vector<T>(*this);
+
         for(int i = 0; i < size_; i++)
         {
-            data_[i].~T();
+            (data_ + i)->~T();
         }
-        //data_->~T();
+
+
         free(data_);
-        data_ = static_cast<T*> (malloc(sizeof(T[new_capacity])));
-        new(data_) T[new_capacity];
+        data_ = static_cast<T*> (malloc(sizeof(T) * new_capacity));
 
         if (new_capacity >= size_)
         {
             for (int i = 0; i < size_; i++)
             {
-                data_[i] = tmp[i];
+                new(data_ + i) T(tmp[i]);
             }
         } 
         else
         {
             for (int i = 0; i < new_capacity; i++)
             {
-                data_[i] = tmp[i];
+                new(data_ + i) T(tmp[i]);
             }
             size_ = new_capacity;
         }
 
         capacity_ = new_capacity;
         
-        //auto tmp = vector<T>(*this);
-
     }
 
     template<typename T>
@@ -161,13 +159,13 @@ namespace my {
     template<typename T>
     void vector<T>::push_back(const T& val)
     {
-        size_++;
-        if (size_ > capacity_)
+        
+        if (size_ + 1 > capacity_)
         {
-            reserve(size_);
+            reserve(size_ + 1);
         }
 
-        data_[size_ - 1] = val;
+        new(data_ + size_++) T(val);   
     }
 
     template<typename T>
