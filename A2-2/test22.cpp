@@ -146,20 +146,23 @@ void test_22()
 
     {
         {
-            cout << "reserve";
+            cout << "test default constructor";
             vector<Payload> v;
-            v.reserve(10);
+            assert(v.size() == 0);
+            assert(v.capacity() == 0);
+            assert(Payload::count() == 0);
+            cout << " done." << endl;
 
+            cout << "reserve";
+            v.reserve(10);
             assert(v.size() == 0);
             assert(v.capacity() == 10);
             assert(Payload::count() == 0);
-
             cout << " done" << endl;
 
             cout << "push back test";
             v.push_back(Payload(1, 1, 1));
             v.push_back(Payload(2, 2, 2));
-
             assert(v.size() == 2);
             assert(v.capacity() == 10);
             assert(Payload::count() == 2);
@@ -173,12 +176,10 @@ void test_22()
             cout << " done." << endl;
 
             cout << "pop back test";
-
             assert(v.pop_back() == Payload(2, 2, 2));
             assert(v.size() == 1);
             assert(v.capacity() == 2);
             assert(Payload::count() == 1);
-
             assert(v.pop_back() == Payload(1, 1, 1));
             assert(v.size() == 0);
             assert(v.capacity() == 2);
@@ -186,20 +187,6 @@ void test_22()
             cout << " done." << endl;
         }
 
-        {
-            cout << "test clear";
-            vector<Payload> v1(3, Payload(2, 2, 2));
-            assert(v1.size() == 3);
-            assert(v1.capacity() == 3);
-            assert(Payload::count() == 3);
-            
-            v1.clear();
-
-            assert(v1.size() == 0);
-            assert(v1.capacity() == 3);
-            assert(Payload::count() == 0);
-            cout << " done." << endl;
-        }
 
         {
             cout << "test move constructor";
@@ -216,9 +203,22 @@ void test_22()
             assert(Payload::count() == 6);
             cout << " done." << endl;
 
+            cout << "test clear";
+            v2.clear();
+            assert(v2.size() == 0);
+            assert(v2.capacity() == 3);
+            assert(Payload::count() == 3);
+            cout << " done." << endl;
+
+        }
+        
+        cout << "test destructor";
+        assert(Payload::count() == 0);
+        cout << " done." << endl;
+        
+        {
             
         }
-
 
     }
 }
