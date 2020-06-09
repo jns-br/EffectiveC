@@ -145,44 +145,46 @@ void test_22()
     using std::endl;
 
     {
-        cout << "reserve";
-        vector<Payload> v;
-        v.reserve(10);
+        {
+            cout << "reserve";
+            vector<Payload> v;
+            v.reserve(10);
 
-        assert(v.size() == 0);
-        assert(v.capacity() == 10);
-        assert(Payload::count() == 0);
+            assert(v.size() == 0);
+            assert(v.capacity() == 10);
+            assert(Payload::count() == 0);
 
-        cout << " done" << endl;
+            cout << " done" << endl;
 
-        cout << "push back test";
-        v.push_back(Payload(1, 1, 1));
-        v.push_back(Payload(2, 2, 2));
+            cout << "push back test";
+            v.push_back(Payload(1, 1, 1));
+            v.push_back(Payload(2, 2, 2));
 
-        assert(v.size() == 2);
-        assert(v.capacity() == 10);
-        assert(Payload::count() == 2);
-        cout << " done." << endl;
+            assert(v.size() == 2);
+            assert(v.capacity() == 10);
+            assert(Payload::count() == 2);
+            cout << " done." << endl;
 
-        cout << "shrink to fit test";
-        v.shrink_to_fit();
-        assert(v.size() == 2);
-        assert(v.capacity() == 2);
-        assert(Payload::count() == 2);
-        cout << " done." << endl;
+            cout << "shrink to fit test";
+            v.shrink_to_fit();
+            assert(v.size() == 2);
+            assert(v.capacity() == 2);
+            assert(Payload::count() == 2);
+            cout << " done." << endl;
 
-        cout << "pop back test";
+            cout << "pop back test";
 
-        assert(v.pop_back() == Payload(2, 2, 2));
-        assert(v.size() == 1);
-        assert(v.capacity() == 2);
-        assert(Payload::count() == 1);
+            assert(v.pop_back() == Payload(2, 2, 2));
+            assert(v.size() == 1);
+            assert(v.capacity() == 2);
+            assert(Payload::count() == 1);
 
-        assert(v.pop_back() == Payload(1, 1, 1));
-        assert(v.size() == 0);
-        assert(v.capacity() == 2);
-        assert(Payload::count() == 0);
-        cout << " done." << endl;
+            assert(v.pop_back() == Payload(1, 1, 1));
+            assert(v.size() == 0);
+            assert(v.capacity() == 2);
+            assert(Payload::count() == 0);
+            cout << " done." << endl;
+        }
 
         {
             cout << "test clear";
@@ -198,5 +200,25 @@ void test_22()
             assert(Payload::count() == 0);
             cout << " done." << endl;
         }
+
+        {
+            cout << "test move constructor";
+            vector<Payload> v2(vector<Payload>(3, Payload(-1, -1, -1)));
+            assert(v2.size() == 3);
+            assert(v2.capacity() == 3);
+            assert(Payload::count() == 3);
+            cout << " done." << endl;
+
+            cout << "test copy constructor";
+            vector<Payload> v2copy(v2);
+            assert(v2copy.size() == v2.size());
+            assert(v2copy.capacity() == v2.capacity());
+            assert(Payload::count() == 6);
+            cout << " done." << endl;
+
+            
+        }
+
+
     }
 }
