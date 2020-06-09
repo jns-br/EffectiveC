@@ -152,7 +152,12 @@ namespace my {
     template<typename T>
     void vector<T>::clear()
     {
-        data_->~T(); 
+        //data_->~T();
+        for(int i = 0; i < size_; i++) 
+        {
+            (data_ + i)->~T();
+        }
+        //free(data_); 
         size_ = 0;
     }
 
