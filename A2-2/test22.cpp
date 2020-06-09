@@ -128,13 +128,13 @@ void test_21()
         }
         cout << " done." << endl;
     }
-#if 0
+
     {
         // mal ausprobieren - soll vorerst nicht (!) kompilieren
         vector<Payload> v1;
         vector<Payload> v2 = v2;
     }
-#endif
+
 
 } // test21()
 
@@ -211,7 +211,7 @@ void test_22()
             cout << " done." << endl;
 
         }
-        
+
         cout << "test destructor";
         assert(Payload::count() == 0);
         cout << " done." << endl;
