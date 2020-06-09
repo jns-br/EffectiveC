@@ -173,17 +173,15 @@ void test_22()
 
         cout << "pop back test";
 
-        auto val1 = v.pop_back();
-        assert(val1 == Payload(2, 2, 2));
+        assert(v.pop_back() == Payload(2, 2, 2));
         assert(v.size() == 1);
         assert(v.capacity() == 2);
-        assert(Payload::count() == 2);
+        assert(Payload::count() == 1);
 
-        auto val2 = v.pop_back();
-        assert(val2 == Payload(1, 1, 1));
+        assert(v.pop_back() == Payload(1, 1, 1));
         assert(v.size() == 0);
         assert(v.capacity() == 2);
-        assert(Payload::count() == 2);
+        assert(Payload::count() == 0);
         cout << " done." << endl;
 
         {
@@ -191,9 +189,14 @@ void test_22()
             vector<Payload> v1(3, Payload(2, 2, 2));
             assert(v1.size() == 3);
             assert(v1.capacity() == 3);
+            assert(Payload::count() == 3);
             
+            v1.clear();
 
-            cout << "done" << endl;
+            assert(v1.size() == 0);
+            assert(v1.capacity() == 3);
+            assert(Payload::count() == 0);
+            cout << " done." << endl;
         }
     }
 }
