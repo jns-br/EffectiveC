@@ -171,9 +171,8 @@ namespace my {
     template<typename T>
     T vector<T>::pop_back()
     {
-        size_--;
-        T val = data_[size_];
-        val.~T();
+        T val = data_[size_ - 1];
+        (data_ + size_--)->~T();
         return val;
     }
 

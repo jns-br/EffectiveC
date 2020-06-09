@@ -45,7 +45,6 @@ void test_21()
             v.push_back(Payload(2,2,2));
             assert(v.size() == 3);
             assert(!v.empty());
-             cout << "P count " << Payload::count() << endl;
             assert(Payload::count() == 3);
 
             assert(v.pop_back() == Payload(2,2,2));
@@ -138,3 +137,63 @@ void test_21()
 #endif
 
 } // test21()
+
+void test_22()
+{
+    using my::vector;
+    using std::cout;
+    using std::endl;
+
+    {
+        cout << "reserve";
+        vector<Payload> v;
+        v.reserve(10);
+
+        assert(v.size() == 0);
+        assert(v.capacity() == 10);
+        assert(Payload::count() == 0);
+
+        cout << " done" << endl;
+
+        cout << "push back test";
+        v.push_back(Payload(1, 1, 1));
+        v.push_back(Payload(2, 2, 2));
+
+        assert(v.size() == 2);
+        assert(v.capacity() == 10);
+        assert(Payload::count() == 2);
+        cout << " done." << endl;
+
+        cout << "shrink to fit test";
+        v.shrink_to_fit();
+        assert(v.size() == 2);
+        assert(v.capacity() == 2);
+        assert(Payload::count() == 2);
+        cout << " done." << endl;
+
+        cout << "pop back test";
+
+        auto val1 = v.pop_back();
+        assert(val1 == Payload(2, 2, 2));
+        assert(v.size() == 1);
+        assert(v.capacity() == 2);
+        assert(Payload::count() == 2);
+
+        auto val2 = v.pop_back();
+        assert(val2 == Payload(1, 1, 1));
+        assert(v.size() == 0);
+        assert(v.capacity() == 2);
+        assert(Payload::count() == 2);
+        cout << " done." << endl;
+
+        {
+            cout << "test clear";
+            vector<Payload> v1(3, Payload(2, 2, 2));
+            assert(v1.size() == 3);
+            assert(v1.capacity() == 3);
+            
+
+            cout << "done" << endl;
+        }
+    }
+}
