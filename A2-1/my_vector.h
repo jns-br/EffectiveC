@@ -33,7 +33,7 @@ namespace my {
     vector<T>::vector() : data_(nullptr), size_(0) {}
 
     template<typename T>
-    vector<T>::vector(const size_t& n) : data_(new T[n]), size_(0)  {}
+    vector<T>::vector(const size_t& n) : data_(nullptr), size_(0)  {}
 
     template<typename T>
     vector<T>::vector(const size_t& n, const T& val) : data_(new T[n]), size_(n)
@@ -42,7 +42,6 @@ namespace my {
         {
            data_[i] = val;
         }
-        
     } 
 
     template<typename T>
@@ -72,8 +71,7 @@ namespace my {
 
     template<typename T>
     void vector<T>::change_size(const size_t& new_size)
-    {
-        
+    { 
         T* tmp = new T[new_size];
         if (new_size >= size_)
         {
@@ -89,18 +87,15 @@ namespace my {
                 tmp[i] = data_[i];
             }
         }
-        
 
         size_ = new_size;
         delete[] data_;
         data_ = tmp;
-        
     } 
 
     template<typename T>
     void vector<T>::push_back(const T& val)
     {
-        
         change_size(size_ + 1);
 
         data_[size_ - 1] = val;
@@ -150,7 +145,5 @@ namespace my {
         {
             return data_[index];
         }
-        
     }
-
 }
