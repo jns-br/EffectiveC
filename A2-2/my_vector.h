@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <utility>
+#include <algorithm>
 
 namespace my {
     template<typename T>
@@ -33,52 +34,58 @@ namespace my {
             T* data_;
             size_t size_;
             size_t capacity_;
-            void* memory_;
     };
     
     template<typename T>
-    vector<T>::vector()
-    {
-        data_ = nullptr;
-        size_ = 0;
-        capacity_ = 0;
-        memory_ = nullptr;
-    }
+    vector<T>::vector() : data_(nullptr), size_(0), capacity_(0) {}
 
     template<typename T>
     vector<T>::vector(const size_t& n) : size_(0), capacity_(n)  
     {
-        memory_ = malloc(sizeof(T) * n);
-        data_ = new(memory_) T[n];
+        data_ = static_cast<T*>(malloc(sizeof(T) * n));
     }
 
     template<typename T>
     vector<T>::vector(const size_t& n, const T& val) : size_(n), capacity_(n)
     {
-        memory_ = malloc(sizeof(T) * n);
-        data_ = new(memory_) T[n];
+        data_ = static_cast<T*>(malloc(sizeof(T) * n));
         for (int i = 0; i < n; i++)
         {
-            data_[i] = val;
+            new(data_ + i) T(val); 
         }
         
     }
 
     template<typename T>
-    vector<T>::vector(const vector<T>& vector) : data_(new T(*vector.data_)), size_(vector.size_), capacity_(vector.capacity_), memory_(*vector.memory_) {}
-
-/*
-    template<typename T>
-    vector<T>::vector(vector<T>&& vector) : vector<T>()
+    vector<T>::vector(const vector<T>& vec) :  size_(vec.size_), capacity_(vec.capacity_) 
     {
-        swap(*this, vector);
+        data_ = static_cast<T*>(malloc(sizeof(T)  * vec.capacity_));
+
+        
+        for (int i = 0; i < vec.size_; i++)
+        {
+            new(data_ + i) T(vec[i]);
+        }
+        
+        
+    }
+
+
+    template<typename T>
+    vector<T>::vector(vector<T>&& vec) : vector<T>()
+    {
+        swap(*this, vec);
     } 
-*/
+
     template<typename T>
     vector<T>::~vector()
     {
-        delete[] data_;
-        free(memory_);
+        for (int i = 0; i < size_; i++)
+        {
+            data_[i].~T();
+        }
+
+        free(data_);
     }
 
     template<typename T>
@@ -102,33 +109,35 @@ namespace my {
     template<typename T>
     void vector<T>::reserve(const size_t& new_capacity)
     {
-        
-        auto tmp = data_;
-        delete[] data_;
-        free(memory_);
-        memory_ = malloc(sizeof(T) * new_capacity);
-        data_ = new(memory_) T[new_capacity];
+        vector<T> tmp = vector<T>(*this);
+
+        for(int i = 0; i < size_; i++)
+        {
+            (data_ + i)->~T();
+        }
+
+
+        free(data_);
+        data_ = static_cast<T*> (malloc(sizeof(T) * new_capacity));
 
         if (new_capacity >= size_)
         {
             for (int i = 0; i < size_; i++)
             {
-                data_[i] = tmp[i];
+                new(data_ + i) T(tmp[i]);
             }
         } 
         else
         {
             for (int i = 0; i < new_capacity; i++)
             {
-                data_[i] = tmp[i];
+                new(data_ + i) T(tmp[i]);
             }
             size_ = new_capacity;
         }
 
         capacity_ = new_capacity;
         
-        //auto tmp = vector<T>(*this);
-
     }
 
     template<typename T>
@@ -143,20 +152,20 @@ namespace my {
     template<typename T>
     void vector<T>::clear()
     {
-        delete[] data_; 
+        data_->~T(); 
         size_ = 0;
     }
 
     template<typename T>
     void vector<T>::push_back(const T& val)
     {
-        size_++;
-        if (size_ > capacity_)
+        
+        if (size_ + 1 > capacity_)
         {
-            reserve(size_);
+            reserve(size_ + 1);
         }
 
-        data_[size_ - 1] = val;
+        new(data_ + size_++) T(val);   
     }
 
     template<typename T>
@@ -217,10 +226,9 @@ namespace my {
     template<typename X>
     void swap(vector<X>& a, vector<X>& b)
     {
-        swap(a.data_, b.data_);
-        swap(a.size_, b.size_);
-        swap(a.capacity_, b.capacity_);
-        swap(a.memory_, b.memory_);
+        std::swap(a.data_, b.data_);
+        std::swap(a.size_, b.size_);
+        std::swap(a.capacity_, b.capacity_);
     }
 
 }

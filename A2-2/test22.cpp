@@ -45,6 +45,7 @@ void test_21()
             v.push_back(Payload(2,2,2));
             assert(v.size() == 3);
             assert(!v.empty());
+             cout << "P count " << Payload::count() << endl;
             assert(Payload::count() == 3);
 
             assert(v.pop_back() == Payload(2,2,2));
