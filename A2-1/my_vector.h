@@ -31,11 +31,9 @@ namespace my {
     template<typename T>
     vector<T>::vector() : data_(nullptr), size_(0) {}
 
-    template<typename T>
-    vector<T>::vector(const size_t& n) : data_(nullptr), size_(0)  {}
 
     template<typename T>
-    vector<T>::vector(const size_t& n, const T& val) : data_(new T[n]), size_(n)
+    vector<T>::vector(const size_t& n, const T& val = T()) : data_(new T[n]), size_(n)
     {
         for (int i = 0; i < n; i++)
         {
