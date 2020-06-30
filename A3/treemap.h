@@ -68,11 +68,11 @@ namespace my {
 
                     // construct iterator referencing a speciic node
                     // - only treemap shall be allowed to do so
-                    iterator(const std::shared_ptr<node>& val) : nodeRef_(std::weak_ptr<node>(val))
+                    iterator(const std::shared_ptr<node>& val) : nodeObserver_(std::weak_ptr<node>(val))
                     {}
 
                     // non-owning reference to the actual node
-                    std::weak_ptr<node> nodeRef_;
+                    std::weak_ptr<node> nodeObserver_;
 
                 public:
 
@@ -80,26 +80,25 @@ namespace my {
                     value_type& operator*()
                     {
                         //nullptr check? what to return if nullptr
-                        auto node_ptr = nodeRef_.lock();
+                        auto node_ptr = nodeObserver_.lock();
                         
                         return node_ptr->data_;
                     }
                     value_type* operator->()
                     {
-                        auto node_ptr = nodeRef_.lock();
+                        auto node_ptr = nodeObserver_.lock();
                         return &node_ptr->data_;
-
                     }
 
                     // two iterators are equal if they point to the same node
-                    bool operator==(const iterator&) const
+                    bool operator==(const iterator& lhs) const
                     {
-                        /* todo */ return false;
+                        return lhs.nodeObserver_.lock() == nodeObserver_.lock();
                     }
 
-                    bool operator!=(const iterator&) const
+                    bool operator!=(const iterator& lhs) const
                     {
-                        /* todo */ return false;
+                        return lhs.nodeObserver_.lock() == nodeObserver_.lock();
                     }
 
                     // next element in map, pre-increment
