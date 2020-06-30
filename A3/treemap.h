@@ -20,155 +20,158 @@ swap(my::treemap<K,T>& lhs, my::treemap<K,T>& rhs);
 
 namespace my {
 
-/*
- * class treemap<K,T>
- * represents an associative container (dictionary) with unique keys
- * implemented by a binary search tree
- *
- */
+    /*
+    * class treemap<K,T>
+    * represents an associative container (dictionary) with unique keys
+    * implemented by a binary search tree
+    *
+    */
     template<typename K, typename T>
     class treemap
     {
+        private:
+            std::unique_ptr<std::pair<K,T>> root_;
+            size_t counter_;
 
-    protected:
+        protected:
+            /*
+            * hierarchical node structure for class treemap
+            *
+            */
+            class node 
+            {
 
-        /*
-        * hierarchical node structure for class treemap
-        *
-        */
-        class node 
-        {
+                public:
+                    std::weak_ptr<node> parent_;
+                    std::vector<std::shared_ptr<node>> children_;
+                    // key and value represented as pair (so they can be easily passed along together)
+                    std::pair<K, T> data;
 
-            public:
+            }; // class node
 
-                // key and value represented as pair (so they can be easily passed along together)
-                std::pair<K, T> data;
+        public:
 
-        }; // class node
+            // public type aliases
+            using key_type = K;
+            using mapped_type = T;
+            using value_type = std::pair<K, T>;
 
-    public:
+            // iterator: references a node within the tree
+            class iterator 
+            {
 
-        // public type aliases
-        using key_type = K;
-        using mapped_type = T;
-        using value_type = std::pair<K, T>;
+                protected:
 
-        // iterator: references a node within the tree
-        class iterator 
-        {
+                    // treemap is a friend, can call protected constructor
+                    friend class treemap;
 
-            protected:
+                    // construct iterator referencing a speciic node
+                    // - only treemap shall be allowed to do so
+                    iterator(/* todo */)
+                    {}
 
-                // treemap is a friend, can call protected constructor
-                friend class treemap;
+                    // non-owning reference to the actual node
+                    /* todo */
 
-                // construct iterator referencing a speciic node
-                // - only treemap shall be allowed to do so
-                iterator(/* todo */)
-                {}
+                public:
 
-                // non-owning reference to the actual node
-                /* todo */
+                    // access data of referenced map element (node)
+                    value_type& operator*()
+                    {
+                        /* todo */ static value_type dummy; return dummy;
+                    }
+                    value_type* operator->()
+                    {
+                        /* todo */ static value_type dummy; return &dummy;
+                    }
 
-            public:
+                    // two iterators are equal if they point to the same node
+                    bool operator==(const iterator&) const
+                    {
+                        /* todo */ return false;
+                    }
 
-                // access data of referenced map element (node)
-                value_type& operator*()
-                {
-                    /* todo */ static value_type dummy; return dummy;
-                }
-                value_type* operator->()
-                {
-                    /* todo */ static value_type dummy; return &dummy;
-                }
+                    bool operator!=(const iterator&) const
+                    {
+                        /* todo */ return false;
+                    }
 
-                // two iterators are equal if they point to the same node
-                bool operator==(const iterator&) const
-                {
-                    /* todo */ return false;
-                }
+                    // next element in map, pre-increment
+                    // note: must modify self!
+                    iterator& operator++()
+                    {
+                        /* todo */ static iterator dummy; return dummy;
+                    }
 
-                bool operator!=(const iterator&) const
-                {
-                    /* todo */ return false;
-                }
+                    // prev element in map, pre-decrement
+                    // note: must modify self!
+                    iterator& operator--()
+                    {
+                        /* todo */ static iterator dummy; return dummy;
+                    }
 
-                // next element in map, pre-increment
-                // note: must modify self!
-                iterator& operator++()
-                {
-                    /* todo */ static iterator dummy; return dummy;
-                }
-
-                // prev element in map, pre-decrement
-                // note: must modify self!
-                iterator& operator--()
-                {
-                    /* todo */ static iterator dummy; return dummy;
-                }
-
-        }; // class iterator
+            }; // class iterator
 
 
-        // used for copy&move
-        template<typename KK, typename TT>
-        friend void ::swap(treemap<KK,TT>& , treemap<KK,TT>& );
+            // used for copy&move
+            template<typename KK, typename TT>
+            friend void ::swap(treemap<KK,TT>& , treemap<KK,TT>& );
 
-        // construct empty map
-        treemap();
+            // construct empty map
+            treemap();
 
-        // move ctor
-        treemap(treemap<K,T>&&);
+            // move ctor
+            treemap(treemap<K,T>&&);
 
-        // deep copy ctor
-        treemap(const treemap<K,T>&);
+            // deep copy ctor
+            treemap(const treemap<K,T>&);
 
-        // how often is the element contained in the map?
-        // (for this type of container, can only return 0 or 1)
-        size_t count(const K&) const;
+            // how often is the element contained in the map?
+            // (for this type of container, can only return 0 or 1)
+            size_t count(const K&) const;
 
-        // assignment (move & copy)
-        treemap<K,T>& operator=(treemap<K,T>);
+            // assignment (move & copy)
+            treemap<K,T>& operator=(treemap<K,T>);
 
-        // remove/destroy all elements
-        void clear();
+            // remove/destroy all elements
+            void clear();
 
-        // random read-only access to value by key, does not modify map
-        T operator[](const K& ) const;
+            // random read-only access to value by key, does not modify map
+            T operator[](const K& ) const;
 
-        // random write access to value by key
-        T& operator[](const K&);
+            // random write access to value by key
+            T& operator[](const K&);
 
-        // number of elements in map (nodes in tree)
-        size_t size() const;
+            // number of elements in map (nodes in tree)
+            size_t size() const;
 
-        // iterator referencing first element (node) in map
-        iterator begin();
+            // iterator referencing first element (node) in map
+            iterator begin();
 
-        // iterator referencing no element (node) in map
-        iterator end() const;
+            // iterator referencing no element (node) in map
+            iterator end() const;
 
-        // add a new element into the tree
-        // returns pair, consisting of:
-        // - iterator to element
-        // - bool
-        //   - true if element was inserted;
-        //   - false if key was already in map (will not overwrite existing value)
-        std::pair<iterator,bool> insert(const K&, const T&);
+            // add a new element into the tree
+            // returns pair, consisting of:
+            // - iterator to element
+            // - bool
+            //   - true if element was inserted;
+            //   - false if key was already in map (will not overwrite existing value)
+            std::pair<iterator,bool> insert(const K&, const T&);
 
-        // add a new element into the tree, or overwrite existing element if key already in map
-        // returns:
-        // - iterator to element
-        // - true if element was newly created; false if existing element was overwritten
-        std::pair<iterator,bool> insert_or_assign(const K&, const T&);
+            // add a new element into the tree, or overwrite existing element if key already in map
+            // returns:
+            // - iterator to element
+            // - true if element was newly created; false if existing element was overwritten
+            std::pair<iterator,bool> insert_or_assign(const K&, const T&);
 
-        // find element with specific key. returns end() if not found.
-        iterator find(const K&) const;
+            // find element with specific key. returns end() if not found.
+            iterator find(const K&) const;
 
     };
 
     template<typename K, typename T>
-    treemap<K,T>::treemap()
+    treemap<K,T>::treemap() : root_(nullptr), counter_(0)
     {
     }
 
