@@ -79,16 +79,16 @@ namespace my {
                     // access data of referenced map element (node)
                     value_type& operator*()
                     {
+                        //nullptr check? what to return if nullptr
                         auto node_ptr = nodeRef_.lock();
                         
                         return node_ptr->data_;
-                        
-                        
-                        
                     }
                     value_type* operator->()
                     {
-                        /* todo */ static value_type dummy; return &dummy;
+                        auto node_ptr = nodeRef_.lock();
+                        return &node_ptr->data_;
+
                     }
 
                     // two iterators are equal if they point to the same node
