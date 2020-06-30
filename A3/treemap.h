@@ -4,6 +4,7 @@
 #include <iostream>
 #include <utility>
 #include <tuple>
+#include <vector>
 
 #include <cassert>
 
@@ -37,12 +38,11 @@ namespace my {
             */
             class node 
             {
-
                 public:
                     std::weak_ptr<node> parent_;
                     std::vector<std::shared_ptr<node>> children_;
                     // key and value represented as pair (so they can be easily passed along together)
-                    std::pair<K, T> data;
+                    std::pair<K, T> data_;
 
             }; // class node
 
@@ -68,18 +68,23 @@ namespace my {
 
                     // construct iterator referencing a speciic node
                     // - only treemap shall be allowed to do so
-                    iterator(/* todo */)
+                    iterator(const std::shared_ptr<node>& val) : nodeRef_(std::weak_ptr<node>(val))
                     {}
 
                     // non-owning reference to the actual node
-                    /* todo */
+                    std::weak_ptr<node> nodeRef_;
 
                 public:
 
                     // access data of referenced map element (node)
                     value_type& operator*()
                     {
-                        /* todo */ static value_type dummy; return dummy;
+                        auto node_ptr = nodeRef_.lock();
+                        
+                        return node_ptr->data_;
+                        
+                        
+                        
                     }
                     value_type* operator->()
                     {
@@ -101,14 +106,14 @@ namespace my {
                     // note: must modify self!
                     iterator& operator++()
                     {
-                        /* todo */ static iterator dummy; return dummy;
+                        /* todo */ static iterator dummy(nullptr); return dummy;
                     }
 
                     // prev element in map, pre-decrement
                     // note: must modify self!
                     iterator& operator--()
                     {
-                        /* todo */ static iterator dummy; return dummy;
+                        /* todo */ static iterator dummy (nullptr); return dummy;
                     }
 
             }; // class iterator
@@ -203,7 +208,7 @@ namespace my {
     size_t
     treemap<K,T>::size() const
     {
-        /* todo */ return 666;
+        return counter_;
     }
 
     // move ctor
@@ -215,7 +220,7 @@ namespace my {
 
     // deep copy ctor
     template<typename K, typename T>
-    treemap<K,T>::treemap(const treemap<K,T>&)
+    treemap<K,T>::treemap(const treemap<K,T>& val) : root_(val.root_), counter_(val.counter_) 
     {
         /* todo */ 
     }
@@ -235,7 +240,7 @@ namespace my {
     typename treemap<K,T>::iterator
     treemap<K,T>::begin()
     {
-        /* todo */ return iterator();
+        /* todo */ return iterator(root_);
     }
 
     // iterator referencing no element (node) in map
@@ -243,7 +248,7 @@ namespace my {
     typename treemap<K,T>::iterator
     treemap<K,T>::end() const
     {
-        /* todo */ return iterator();
+        /* todo */ return iterator(nullptr);
     }
 
     // add a new element into the tree
@@ -254,7 +259,7 @@ namespace my {
     std::pair<typename treemap<K,T>::iterator,bool>
     treemap<K,T>::insert(const K&, const T&)
     {
-        /* todo */ return std::make_pair(iterator(),false);
+        /* todo */ return std::make_pair(iterator(nullptr),false);
     }
 
     // add a new element into the tree, or overwrite existing element if key already in map
@@ -265,7 +270,7 @@ namespace my {
     std::pair<typename treemap<K,T>::iterator,bool>
     treemap<K,T>::insert_or_assign(const K&, const T&)
     {
-        /* todo */ return std::make_pair(iterator(),false);
+        /* todo */ return std::make_pair(iterator(nullptr),false);
     }
 
     // find element with specific key. returns end() if not found.
@@ -273,7 +278,7 @@ namespace my {
     typename treemap<K,T>::iterator
     treemap<K,T>::find(const K&) const
     {
-        /* todo */ return iterator();
+        /* todo */ return iterator(nullptr);
     }
 
     // how often is the element contained in the map?
