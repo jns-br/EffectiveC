@@ -29,9 +29,6 @@ namespace my {
     template<typename K, typename T>
     class treemap
     {
-        private:
-            std::unique_ptr<std::pair<K,T>> root_;
-            size_t counter_;
 
         protected:
             /*
@@ -49,6 +46,10 @@ namespace my {
 
             }; // class node
 
+        private:
+            std::shared_ptr<node> root_;
+            size_t counter_;
+        
         public:
 
             // public type aliases
