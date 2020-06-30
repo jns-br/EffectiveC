@@ -20,6 +20,12 @@ int main()
 {
 
     {
+        cout << "test insert" << endl;
+        treemap<string,Payload> m;
+        m.insert("A", Payload(1,1,1));
+    }
+
+    {
         cout << "1. treemap basics..." << endl;
 
         treemap<string, Payload> m;

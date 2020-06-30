@@ -39,11 +39,95 @@ namespace my {
             class node 
             {
                 public:
-                    std::weak_ptr<node> parent_;
-                    std::vector<std::shared_ptr<node>> children_;
+                    std::weak_ptr<node> parent_ = std::weak_ptr<node>();
+                    //std::vector<std::shared_ptr<node>> children_;
+                    std::shared_ptr<node> child_left_ = nullptr;
+                    std::shared_ptr<node> child_right_ = nullptr;
                     // key and value represented as pair (so they can be easily passed along together)
-                    std::pair<K, T> data_;
+                    std::pair<K, T> data_ = std::pair<K,T>();
 
+                    node() = default;
+                    node(const std::pair<K,T>& data) : data_(data) {}
+
+                    bool search(const K& key)
+                    {
+                        if (key == data_.first)
+                        {
+                            return true;
+                        }
+                        else if (key < data_.first)
+                        {
+                            if (child_left_ == nullptr)
+                            {
+                                return false; 
+                            }
+                            else
+                            {
+                                return child_left_.search(key);
+                            }
+                            
+                            
+                        }
+                        else
+                        {
+                            if (child_right_ == nullptr)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                return child_right_.search(key);
+                            }
+                            
+                            
+                        }
+                        
+                        
+                        
+                    }
+
+                    void add(const std::pair<K,T>& data) 
+                    {
+                        if (data_ == nullptr)
+                        {
+                            data_ = data;
+                        }
+                        else
+                        {
+                            if (data_.first > data.first)
+                            {
+                                if (child_left_ == nullptr)
+                                {
+                                    child_left_ = std::make_shared<node>(data);
+                                }
+                                else
+                                {
+                                    child_left_.add(data);
+                                }
+                            }
+                            else if (data_.first < data.first)
+                            {
+                                if (child_right_ == nullptr)
+                                {
+                                    child_right_ = std::make_shared<node>(data);
+                                }
+                                else
+                                {
+                                    child_right_.add(data);
+                                }
+                            }
+                            else
+                            {
+                                /* code */
+                            }
+                            
+                            
+                            
+                        }
+                        
+
+                        
+                    }
             }; // class node
 
         private:
@@ -184,6 +268,8 @@ namespace my {
     void
     treemap<K,T>::clear()
     {
+        root_ = nullptr;
+        counter_ = 0;
     }
 
     // random read-only access to value by key
@@ -256,9 +342,20 @@ namespace my {
     // - true if element was inserted; false if key was already in map
     template<typename K, typename T>
     std::pair<typename treemap<K,T>::iterator,bool>
-    treemap<K,T>::insert(const K&, const T&)
+    treemap<K,T>::insert(const K& key, const T& val)
     {
-        /* todo */ return std::make_pair(iterator(nullptr),false);
+        if (root_ == nullptr)
+        {
+            node a(std::make_pair(key, val));
+            root_ = std::make_shared<node>(node(std::make_pair(key, val)));
+            return std::make_pair(iterator(root_),false);    
+        }
+        else
+        {
+            /* code */
+        }
+        
+        return std::make_pair(iterator(root_),false);
     }
 
     // add a new element into the tree, or overwrite existing element if key already in map
@@ -283,9 +380,14 @@ namespace my {
     // how often is the element contained in the map?
     template<typename K, typename T>
     size_t
-    treemap<K,T>::count(const K&) const
+    treemap<K,T>::count(const K& val) const
     {
-        /* todo */ return 666;
+        if (root_->search(val))
+        {
+            return 1;
+        }
+        
+        return 0;
     }
 
 } // namespace my
