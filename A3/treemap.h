@@ -364,9 +364,6 @@ namespace my {
             std::pair<std::shared_ptr<node>, bool> insertion = root_->add(std::make_pair(key, val), true);
             return std::make_pair(iterator(insertion.first), insertion.second);   
         }
-        
-        
-        /* todo */ return std::make_pair(iterator(nullptr),false);
     }
 
     // find element with specific key. returns end() if not found.
