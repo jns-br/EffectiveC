@@ -88,12 +88,12 @@ namespace my {
                             if (child_left_ == nullptr)
                             {
                                 child_left_ = std::make_shared<node>(data);
-                                child_left_->parent_ = std::weak_ptr<node>(this);
-                                return std::make_pair(child_left_, true);
+                                child_left_->parent_ = std::weak_ptr<node>(std::make_shared<node>(*this));
+                                return std::make_pair(*child_left_, true);
                             }
                             else
                             {
-                                return child_left_->add(data);
+                                return child_left_->add(data, assign);
                             }
                         }
                         else if (data_.first < data.first)
@@ -101,12 +101,12 @@ namespace my {
                             if (child_right_ == nullptr)
                             {
                                 child_right_ = std::make_shared<node>(data);
-                                child_right_->parent_ = std::weak_ptr<node>(this);
-                                return std::make_pair(child_right_, true);
+                                child_right_->parent_ = std::weak_ptr<node>(std::make_shared<node>(*this));
+                                return std::make_pair(*child_right_, true);
                             }
                             else
                             {
-                                return child_right_->add(data);
+                                return child_right_->add(data, assign);
                             }
                         }
                         else
@@ -114,11 +114,11 @@ namespace my {
                             if (assign)
                             {
                                 data_ = data;
-                                return std::make_pair(this, true);
+                                return std::make_pair(*this, true);
                             }
                             else
                             {
-                                return std::make_pair(this, false);
+                                return std::make_pair(*this, false);
                             }
                             
                             
@@ -349,7 +349,7 @@ namespace my {
         else
         {
             std::pair<node, bool> c = root_->add(std::make_pair(key, val), false);
-            return std::make_pair(iterator(c.first), c.second);
+            return std::make_pair(iterator(std::make_shared<node>(c.first)), c.second);
         }
     }
 
