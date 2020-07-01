@@ -63,10 +63,8 @@ namespace my {
                             }
                             else
                             {
-                                return child_left_.search(key);
-                            }
-                            
-                            
+                                return child_left_->search(key);
+                            }   
                         }
                         else
                         {
@@ -76,14 +74,9 @@ namespace my {
                             }
                             else
                             {
-                                return child_right_.search(key);
+                                return child_right_->search(key);
                             }
-                            
-                            
-                        }
-                        
-                        
-                        
+                        }  
                     }
 
                     void add(const std::pair<K,T>& data) 
@@ -102,7 +95,7 @@ namespace my {
                                 }
                                 else
                                 {
-                                    child_left_.add(data);
+                                    child_left_->add(data);
                                 }
                             }
                             else if (data_.first < data.first)
@@ -113,7 +106,7 @@ namespace my {
                                 }
                                 else
                                 {
-                                    child_right_.add(data);
+                                    child_right_->add(data);
                                 }
                             }
                             else
