@@ -23,7 +23,9 @@ int main()
         cout << "test insert" << endl;
         treemap<int,Payload> m;
         m.insert(1, Payload(1,1,1));
-        cout << m.count(1) << endl;
+        m.insert(2, Payload(2,2,2));
+        auto fail = m.insert(2, Payload(1,2,3));
+        assert(fail.second == false);
     }
 
     {
