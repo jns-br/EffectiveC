@@ -21,8 +21,9 @@ int main()
 
     {
         cout << "test insert" << endl;
-        treemap<string,Payload> m;
-        m.insert("A", Payload(1,1,1));
+        treemap<int,Payload> m;
+        m.insert(1, Payload(1,1,1));
+        cout << m.count(1) << endl;
     }
 
     {

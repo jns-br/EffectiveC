@@ -40,7 +40,6 @@ namespace my {
             {
                 public:
                     std::weak_ptr<node> parent_ = std::weak_ptr<node>();
-                    //std::vector<std::shared_ptr<node>> children_;
                     std::shared_ptr<node> child_left_ = nullptr;
                     std::shared_ptr<node> child_right_ = nullptr;
                     // key and value represented as pair (so they can be easily passed along together)
@@ -51,6 +50,8 @@ namespace my {
 
                     bool search(const K& key)
                     {
+                        std::cout << "start search" << std::endl;
+                        
                         if (key == data_.first)
                         {
                             return true;
@@ -79,47 +80,49 @@ namespace my {
                         }  
                     }
 
-                    void add(const std::pair<K,T>& data) 
+                    std::pair<node,bool> add(const std::pair<K,T>& data, const bool& assign) 
                     {
-                        if (data_ == nullptr)
+                        
+                        if (data_.first > data.first)
                         {
-                            data_ = data;
-                        }
-                        else
-                        {
-                            if (data_.first > data.first)
+                            if (child_left_ == nullptr)
                             {
-                                if (child_left_ == nullptr)
-                                {
-                                    child_left_ = std::make_shared<node>(data);
-                                }
-                                else
-                                {
-                                    child_left_->add(data);
-                                }
-                            }
-                            else if (data_.first < data.first)
-                            {
-                                if (child_right_ == nullptr)
-                                {
-                                    child_right_ = std::make_shared<node>(data);
-                                }
-                                else
-                                {
-                                    child_right_->add(data);
-                                }
+                                child_left_ = std::make_shared<node>(data);
+                                child_left_->parent_ = std::weak_ptr<node>(this);
+                                return std::make_pair(child_left_, true);
                             }
                             else
                             {
-                                /* code */
+                                return child_left_->add(data);
+                            }
+                        }
+                        else if (data_.first < data.first)
+                        {
+                            if (child_right_ == nullptr)
+                            {
+                                child_right_ = std::make_shared<node>(data);
+                                child_right_->parent_ = std::weak_ptr<node>(this);
+                                return std::make_pair(child_right_, true);
+                            }
+                            else
+                            {
+                                return child_right_->add(data);
+                            }
+                        }
+                        else
+                        {
+                            if (assign)
+                            {
+                                data_ = data;
+                                return std::make_pair(this, true);
+                            }
+                            else
+                            {
+                                return std::make_pair(this, false);
                             }
                             
                             
-                            
                         }
-                        
-
-                        
                     }
             }; // class node
 
@@ -341,14 +344,13 @@ namespace my {
         {
             node a(std::make_pair(key, val));
             root_ = std::make_shared<node>(node(std::make_pair(key, val)));
-            return std::make_pair(iterator(root_),false);    
+            return std::make_pair(iterator(root_),false);     
         }
         else
         {
-            /* code */
+            std::pair<node, bool> c = root_->add(std::make_pair(key, val), false);
+            return std::make_pair(iterator(c.first), c.second);
         }
-        
-        return std::make_pair(iterator(root_),false);
     }
 
     // add a new element into the tree, or overwrite existing element if key already in map
