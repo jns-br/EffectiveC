@@ -68,7 +68,6 @@ int main()
             // find()
             auto eleven = m.find("Eleven");
             assert(Payload::count() == 3);
-            cout << "find on eleven called  " << typeid(eleven) << endl;
             auto key = eleven->first;
             auto value = eleven->second;
             cout << "found payload Eleven: [ " << key << "," << to_string(value) << " ]" << endl;
