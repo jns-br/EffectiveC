@@ -82,7 +82,6 @@ int main()
             // clear()
             m.clear();
             assert(m.size() == 0);
-            cout << Payload::count() << endl;
             assert(Payload::count() == 1); // value contains one Payload obj
         }
         assert(Payload::count() == 0);
