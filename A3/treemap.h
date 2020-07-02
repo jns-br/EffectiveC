@@ -85,7 +85,7 @@ namespace my {
                         {
                             if (child_left_ == nullptr)
                             {
-                                child_left_ = std::make_shared<node>(data);
+                                child_left_ = std::make_shared<node>(node(data));
                                 child_left_->parent_ = std::weak_ptr<node>(std::make_shared<node>(*this));
                                 return std::make_pair(child_left_, true);
                             }
@@ -98,7 +98,7 @@ namespace my {
                         {
                             if (child_right_ == nullptr)
                             {
-                                child_right_ = std::make_shared<node>(data);
+                                child_right_ = std::make_shared<node>(node(data));
                                 child_right_->parent_ = std::weak_ptr<node>(std::make_shared<node>(*this));
                                 return std::make_pair(child_right_, true);
                             }
