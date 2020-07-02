@@ -36,7 +36,7 @@ namespace my {
             * hierarchical node structure for class treemap
             *
             */
-            class node 
+            class node : std::enable_shared_from_this<node>
             {
                 public:
                     std::weak_ptr<node> parent_ = std::weak_ptr<node>();
@@ -52,7 +52,7 @@ namespace my {
                     {
                         if (key == data_.first)
                         {
-                            return std::make_shared<node>(*this);
+                            return node::shared_from_this();
                         }
                         else if (key < data_.first)
                         {
@@ -86,7 +86,7 @@ namespace my {
                             if (child_left_ == nullptr)
                             {
                                 child_left_ = std::make_shared<node>(node(data));
-                                child_left_->parent_ = std::weak_ptr<node>(std::make_shared<node>(*this));
+                                child_left_->parent_ = node::weak_from_this();
                                 return std::make_pair(child_left_, true);
                             }
                             else
@@ -99,7 +99,7 @@ namespace my {
                             if (child_right_ == nullptr)
                             {
                                 child_right_ = std::make_shared<node>(node(data));
-                                child_right_->parent_ = std::weak_ptr<node>(std::make_shared<node>(*this));
+                                child_right_->parent_ = node::weak_from_this();
                                 return std::make_pair(child_right_, true);
                             }
                             else
@@ -113,7 +113,7 @@ namespace my {
                             {
                                 data_ = data;
                             }
-                            return std::make_pair(std::make_shared<node>(*this), false);
+                            return std::make_pair(node::shared_from_this(), false);
                         }
                     }
             }; // class node
