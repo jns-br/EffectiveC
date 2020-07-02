@@ -18,7 +18,7 @@ to_string(Payload p)
 
 int main()
 {
-/*
+
     {
         cout << "test insert" << endl;
         treemap<int,Payload> m;
@@ -26,15 +26,16 @@ int main()
         assert(m.count(1) == 0);
         m.insert(1, Payload(1,1,1));
         m.insert(2, Payload(2,2,2));
-        assert(m.count(1) == 1);
-        auto fail = m.insert(2, Payload(1,2,3));
+        m.insert_or_assign(2, Payload(3, 3, 3));
+        //assert(m.count(1) == 1);
+        auto fail = m.insert_or_assign(2, Payload(1,2,3));
         assert(fail.second == false);
         m.insert(3, Payload(3, 3, 3));
         assert(Payload::count() == 3);
         m.clear();
         assert(Payload::count() == 0);
     }
-*/
+
     {
         cout << "1. treemap basics..." << endl;
 

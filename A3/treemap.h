@@ -85,7 +85,7 @@ namespace my {
                         {
                             if (child_left_ == nullptr)
                             {
-                                child_left_ = std::make_shared<node>(node(data));
+                                child_left_ = std::make_shared<node>(data);
                                 child_left_->parent_ = node::weak_from_this();
                                 return std::make_pair(child_left_, true);
                             }
@@ -98,7 +98,7 @@ namespace my {
                         {
                             if (child_right_ == nullptr)
                             {
-                                child_right_ = std::make_shared<node>(node(data));
+                                child_right_ = std::make_shared<node>(data);
                                 child_right_->parent_ = node::weak_from_this();
                                 return std::make_pair(child_right_, true);
                             }
@@ -263,8 +263,9 @@ namespace my {
     // random read-only access to value by key
     template<typename K, typename T>
     T
-    treemap<K,T>::operator[](const K&) const
+    treemap<K,T>::operator[](const K& key) const
     {
+        
         /* todo */ return T();
     }
 
@@ -273,6 +274,7 @@ namespace my {
     T&
     treemap<K,T>::operator[](const K&)
     {
+
         /* todo */ static T dummy; return dummy;
     }
 
@@ -334,7 +336,7 @@ namespace my {
     {
         if (root_ == nullptr)
         {
-            root_ = std::make_shared<node>(node(std::make_pair(key, val)));
+            root_ = std::make_shared<node>(std::make_pair(key, val));
             counter_++;
             return std::make_pair(iterator(root_), true);     
         }
@@ -360,7 +362,7 @@ namespace my {
     {
         if (root_ == nullptr)
         {
-            root_ = std::make_shared<node>(node(std::make_pair(key, val)));
+            root_ = std::make_shared<node>(std::make_pair(key, val));
             counter_++;
             return std::make_pair(iterator(root_), true);
         }
