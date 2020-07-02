@@ -274,8 +274,16 @@ namespace my {
     T&
     treemap<K,T>::operator[](const K& key)
     {
-        
-        /* todo */ static T dummy; return dummy;
+        auto iter = find(key);
+        if (iter.nodeObserver_.lock() == nullptr)
+        {
+            auto insertion = insert(key, T());
+            return insertion.first->second;
+        }
+        else
+        {
+            return iter->second;
+        }
     }
 
     // number of elements in map (nodes in tree)
