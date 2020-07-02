@@ -26,8 +26,13 @@ int main()
         assert(m.count(1) == 0);
         m.insert(1, Payload(1,1,1));
         m.insert(2, Payload(2,2,2));
+        assert(m.count(1) == 1);
         auto fail = m.insert(2, Payload(1,2,3));
         assert(fail.second == false);
+        m.insert(3, Payload(3, 3, 3));
+        assert(Payload::count() == 3);
+        m.clear();
+        assert(Payload::count() == 0);
     }
 
     {
@@ -71,10 +76,12 @@ int main()
             auto key = eleven->first;
             auto value = eleven->second;
             cout << "found payload Eleven: [ " << key << "," << to_string(value) << " ]" << endl;
+            assert(Payload::count() == 4);
 
             // clear()
             m.clear();
             assert(m.size() == 0);
+            cout << Payload::count() << endl;
             assert(Payload::count() == 1); // value contains one Payload obj
         }
         assert(Payload::count() == 0);
