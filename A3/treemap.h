@@ -48,19 +48,19 @@ namespace my {
                     node() = default;
                     node(const std::pair<K,T>& data) : data_(data) {}
 
-                    bool search(const K& key)
+                    std::shared_ptr<node> search(const K& key)
                     {
                         std::cout << "start search" << std::endl;
                         
                         if (key == data_.first)
                         {
-                            return true;
+                            return std::make_shared<node>(*this);
                         }
                         else if (key < data_.first)
                         {
                             if (child_left_ == nullptr)
                             {
-                                return false; 
+                                return nullptr; 
                             }
                             else
                             {
@@ -71,7 +71,7 @@ namespace my {
                         {
                             if (child_right_ == nullptr)
                             {
-                                return false;
+                                return nullptr;
                             }
                             else
                             {
@@ -379,7 +379,7 @@ namespace my {
     size_t
     treemap<K,T>::count(const K& val) const
     {
-        if (root_->search(val))
+        if (root_ != nullptr && root_->search(val) != nullptr)
         {
             return 1;
         }
