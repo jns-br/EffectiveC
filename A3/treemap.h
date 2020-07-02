@@ -50,8 +50,6 @@ namespace my {
 
                     std::shared_ptr<node> search(const K& key)
                     {
-                        std::cout << "start search" << std::endl;
-                        
                         if (key == data_.first)
                         {
                             return std::make_shared<node>(*this);
@@ -337,11 +335,17 @@ namespace my {
         if (root_ == nullptr)
         {
             root_ = std::make_shared<node>(node(std::make_pair(key, val)));
+            counter_++;
             return std::make_pair(iterator(root_), true);     
         }
         else
         {
             std::pair<std::shared_ptr<node>, bool> insertion = root_->add(std::make_pair(key, val), false);
+            if (insertion.second == true)
+            {
+                counter_++;
+            }
+            
             return std::make_pair(iterator(insertion.first), insertion.second);
         }
     }
@@ -357,11 +361,16 @@ namespace my {
         if (root_ == nullptr)
         {
             root_ = std::make_shared<node>(node(std::make_pair(key, val)));
+            counter_++;
             return std::make_pair(iterator(root_), true);
         }
         else
         {
             std::pair<std::shared_ptr<node>, bool> insertion = root_->add(std::make_pair(key, val), true);
+            if (insertion.second == true)
+            {
+                counter_++;
+            }
             return std::make_pair(iterator(insertion.first), insertion.second);   
         }
     }
@@ -373,7 +382,7 @@ namespace my {
     {
         if (root_ != nullptr)
         {
-            return iterator(root_->search(key))
+            return iterator(root_->search(key));
         }
         else
         {
