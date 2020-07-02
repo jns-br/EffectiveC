@@ -123,7 +123,7 @@ int main()
 
     assert(Payload::count() == 0);
     cout << endl;
-
+/*
     {
         cout << "4. iterator, ++ ..." << endl;
 
@@ -158,7 +158,7 @@ int main()
 
     assert(Payload::count() == 0);
     cout << endl;
-
+*/
     {
         cout << "5. iterator, -- ..." << endl;
 
@@ -248,7 +248,6 @@ int main()
     }
     assert(Payload::count() == 0);
     cout << endl;
-
 
     return 0;
 }

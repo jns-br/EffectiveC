@@ -165,12 +165,12 @@ namespace my {
                     // two iterators are equal if they point to the same node
                     bool operator==(const iterator& lhs) const
                     {
-                        return lhs.nodeObserver_.lock() == nodeObserver_.lock();
+                        return nodeObserver_.lock() == lhs.nodeObserver_.lock();
                     }
 
                     bool operator!=(const iterator& lhs) const
                     {
-                        return lhs.nodeObserver_.lock() == nodeObserver_.lock();
+                        return !(*this == lhs);
                     }
 
                     // next element in map, pre-increment
