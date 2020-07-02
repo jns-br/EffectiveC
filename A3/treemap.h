@@ -36,7 +36,7 @@ namespace my {
             * hierarchical node structure for class treemap
             *
             */
-            class node : std::enable_shared_from_this<node>
+            class node : public std::enable_shared_from_this<node>
             {
                 public:
                     std::weak_ptr<node> parent_ = std::weak_ptr<node>();

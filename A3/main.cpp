@@ -27,7 +27,7 @@ int main()
         m.insert(1, Payload(1,1,1));
         m.insert(2, Payload(2,2,2));
         m.insert_or_assign(2, Payload(3, 3, 3));
-        //assert(m.count(1) == 1);
+        assert(m.count(1) == 1);
         auto fail = m.insert_or_assign(2, Payload(1,2,3));
         assert(fail.second == false);
         m.insert(3, Payload(3, 3, 3));
