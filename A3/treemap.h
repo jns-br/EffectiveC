@@ -369,9 +369,16 @@ namespace my {
     // find element with specific key. returns end() if not found.
     template<typename K, typename T>
     typename treemap<K,T>::iterator
-    treemap<K,T>::find(const K&) const
+    treemap<K,T>::find(const K& key) const
     {
-        /* todo */ return iterator(nullptr);
+        if (root_ != nullptr)
+        {
+            return iterator(root_->search(key))
+        }
+        else
+        {
+            return iterator(nullptr);
+        }
     }
 
     // how often is the element contained in the map?
