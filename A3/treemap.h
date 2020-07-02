@@ -158,7 +158,7 @@ namespace my {
                     }
                     value_type* operator->()
                     {
-                        auto node_ptr = nodeObserver_.lock();
+                        static auto node_ptr = nodeObserver_.lock();
                         return &node_ptr->data_;
                     }
 
