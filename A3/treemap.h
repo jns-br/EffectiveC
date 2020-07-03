@@ -190,7 +190,37 @@ namespace my {
                     // note: must modify self!
                     iterator& operator++()
                     {
-                        /* todo */ static iterator dummy(nullptr); return dummy;
+                        auto node_ptr = nodeObserver_.lock();
+                        auto node_parent = node_ptr->parent_.lock();
+
+                        if (node_parent == nullptr)
+                        {
+                            *this = iterator(node_ptr->child_right_);
+                        }
+                        else if (node_ptr->data_.first < node_parent->data_.first)
+                        {
+                            if (node_ptr->child_right_ == nullptr)
+                            {
+                                *this = iterator(node_parent);
+                            }
+                            else
+                            {
+                                *this = iterator(node_ptr->child_right_);
+                            }
+                        }
+                        else
+                        {
+                            if (node_ptr->child_left_ == nullptr)
+                            {
+                                *this = iterator(node_ptr->child_right_);
+                            }
+                            else
+                            {
+                                *this = iterator(node_ptr->child_left_);
+                            }
+                        }
+
+                        return *this;
                     }
 
                     // prev element in map, pre-decrement
