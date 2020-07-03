@@ -24,14 +24,15 @@ int main()
         treemap<int,Payload> m;
         assert(m.size() == 0);
         assert(m.count(1) == 0);
-        m.insert(1, Payload(1,1,1));
         m.insert(2, Payload(2,2,2));
+        m.insert(1, Payload(1,1,1));
         m.insert_or_assign(2, Payload(3, 3, 3));
         assert(m.count(1) == 1);
         auto fail = m.insert_or_assign(2, Payload(1,2,3));
         assert(fail.second == false);
         m.insert(3, Payload(3, 3, 3));
         assert(Payload::count() == 3);
+        assert(m.begin()->first == 1);
         m.clear();
         assert(Payload::count() == 0);
     }

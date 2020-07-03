@@ -116,6 +116,19 @@ namespace my {
                             return std::make_pair(node::shared_from_this(), false);
                         }
                     }
+
+                    std::shared_ptr<node> first()
+                    {
+                        if (child_left_ == nullptr)
+                        {
+                            return node::shared_from_this();
+                        } else
+                        {
+                            return child_left_->first();
+                        }
+                        
+                        
+                    }
             }; // class node
 
         private:
@@ -323,7 +336,14 @@ namespace my {
     typename treemap<K,T>::iterator
     treemap<K,T>::begin()
     {
-        /* todo */ return iterator(root_);
+        if (root_ == nullptr)
+        {
+            return iterator(nullptr);
+        }
+        else
+        {
+            return iterator(root_->first());
+        }
     }
 
     // iterator referencing no element (node) in map
