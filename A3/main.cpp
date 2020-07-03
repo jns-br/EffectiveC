@@ -135,7 +135,8 @@ int main()
         m["Zebra"] = 3;
         m["Anna"] = 4;
         m["Klaus"] = 5;
-        assert(m.size() == 5);
+        m["Beta"] = 6;
+        assert(m.size() == 6);
 
         // iterator++, iterator operator->
         cout << "iterating through list in normal order:" << endl;
@@ -143,10 +144,11 @@ int main()
             cout << "  " << i->first << ": " << i->second << endl;
 
         assert(m.begin()->first == "Anna");
-        assert((++m.begin())->first == "Hartmut");
-        assert((++++m.begin())->first == "Helmut");
-        assert((++++++m.begin())->first == "Klaus");
-        assert((++++++++m.begin())->first == "Zebra");
+        assert((++m.begin())->first == "Beta");
+        assert((++++m.begin())->first == "Hartmut");
+        assert((++++++m.begin())->first == "Helmut");
+        assert((++++++++m.begin())->first == "Klaus");
+        assert((++++++++++m.begin())->first == "Zebra");
 
         // iterator++, iterator operator*
         cout << "iterating through list using range-based for loop:" << endl;

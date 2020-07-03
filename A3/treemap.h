@@ -212,7 +212,14 @@ namespace my {
                         {
                             if (node_ptr->child_left_ == nullptr)
                             {
-                                *this = iterator(node_ptr->child_right_);
+                                if (node_ptr->child_right_ == nullptr)
+                                {
+                                    *this = iterator(node_parent->parent_.lock());
+                                }
+                                else
+                                {
+                                    *this = iterator(node_ptr->child_right_);    
+                                }
                             }
                             else
                             {
