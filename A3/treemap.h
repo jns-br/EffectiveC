@@ -188,6 +188,7 @@ namespace my {
 
                     // next element in map, pre-increment
                     // note: must modify self!
+                    /*
                     iterator& operator++()
                     {
                         auto node_ptr = nodeObserver_.lock();
@@ -228,6 +229,51 @@ namespace my {
                         }
 
                         return *this;
+                    }
+                    */
+
+                    iterator& operator++()
+                    {
+                        auto node_ptr = nodeObserver_.lock();
+                        auto node_parent = node_ptr->parent.lock();
+
+                        if (node_parent == nullptr)
+                        {
+                            *this = iterator(node_ptr->child_right_);
+                            return *this;
+                        }
+                        else if (node_ptr->data_.first < node_parent->data_.first)
+                        {
+                            if (node_ptr->child_right_ == nullptr)
+                            {
+                                *this = iterator(node_parent);
+                                return *this;
+                            }
+                            else
+                            {
+                                return ++iterator(node_ptr->child_right_);
+                            }
+                        }
+                        else
+                        {
+                            if (node_ptr->child_left_ == nullptr)
+                            {
+                                if (node_ptr->child_right_ == nullptr)
+                                {
+                                    *this = iterator(node_parent->parent_.lock());
+                                    return *this;
+                                }
+                                else
+                                {
+                                    return ++iterator(node_ptr->child_right_);
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                        
+                        
                     }
 
                     // prev element in map, pre-decrement
