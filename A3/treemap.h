@@ -151,11 +151,12 @@ namespace my {
 
                     // construct iterator referencing a speciic node
                     // - only treemap shall be allowed to do so
-                    iterator(const std::shared_ptr<node>& val) : nodeObserver_(std::weak_ptr<node>(val))
+                    iterator(const std::shared_ptr<node>& val, const std::shared_ptr<node>& root) : nodeObserver_(std::weak_ptr<node>(val)), root_(std::weak_ptr<node>(root))
                     {}
 
                     // non-owning reference to the actual node
                     std::weak_ptr<node> nodeObserver_;
+                    std::weak_ptr<node> root_;
 
                 public:
 
@@ -214,7 +215,7 @@ namespace my {
                             node_ptr = tmp;
                         }
 
-                        *this = iterator(node_ptr);
+                        *this = iterator(node_ptr, root_.lock());
                         return *this;
                         
                     }
@@ -223,7 +224,24 @@ namespace my {
                     // note: must modify self!
                     iterator& operator--()
                     {
-                        /* todo */ static iterator dummy (nullptr); return dummy;
+                        auto node_ptr = nodeObserver_.lock();
+                        std::shared_ptr<node> tmp;
+
+                        if (node_ptr == nullptr)
+                        {
+                            auto root_ptr = root_.lock();
+                            node_ptr = root_ptr->child_right_;
+
+                            while (root_ptr->child_right_ != nullptr)
+                            {
+                                node_ptr = root_ptr->child_right_;
+                            }
+
+
+                            
+                        }
+                        *this = iterator(node_ptr, root_.lock());
+                        return *this;
                     }
 
             }; // class iterator
@@ -364,11 +382,11 @@ namespace my {
     {
         if (root_ == nullptr)
         {
-            return iterator(nullptr);
+            return iterator(nullptr, nullptr);
         }
         else
         {
-            return iterator(root_->first());
+            return iterator(root_->first(), root_);
         }
     }
 
@@ -377,7 +395,7 @@ namespace my {
     typename treemap<K,T>::iterator
     treemap<K,T>::end() const
     {
-        /* todo */ return iterator(nullptr);
+        /* todo */ return iterator(nullptr, root_);
     }
 
     // add a new element into the tree
@@ -392,7 +410,7 @@ namespace my {
         {
             root_ = std::make_shared<node>(std::make_pair(key, val));
             counter_++;
-            return std::make_pair(iterator(root_), true);     
+            return std::make_pair(iterator(root_, root_), true);     
         }
         else
         {
@@ -402,7 +420,7 @@ namespace my {
                 counter_++;
             }
             
-            return std::make_pair(iterator(insertion.first), insertion.second);
+            return std::make_pair(iterator(insertion.first, root_), insertion.second);
         }
     }
 
@@ -418,7 +436,7 @@ namespace my {
         {
             root_ = std::make_shared<node>(std::make_pair(key, val));
             counter_++;
-            return std::make_pair(iterator(root_), true);
+            return std::make_pair(iterator(root_, root_), true);
         }
         else
         {
@@ -427,7 +445,7 @@ namespace my {
             {
                 counter_++;
             }
-            return std::make_pair(iterator(insertion.first), insertion.second);   
+            return std::make_pair(iterator(insertion.first, root_), insertion.second);   
         }
     }
 
@@ -438,11 +456,11 @@ namespace my {
     {
         if (root_ != nullptr)
         {
-            return iterator(root_->search(key));
+            return iterator(root_->search(key), root_);
         }
         else
         {
-            return iterator(nullptr);
+            return iterator(nullptr, root_);
         }
     }
 
