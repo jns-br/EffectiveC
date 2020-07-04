@@ -125,9 +125,7 @@ namespace my {
                         } else
                         {
                             return child_left_->first();
-                        }
-                        
-                        
+                        } 
                     }
             }; // class node
 
@@ -188,91 +186,36 @@ namespace my {
 
                     // next element in map, pre-increment
                     // note: must modify self!
-                    /*
                     iterator& operator++()
                     {
+                        //https://www.cs.odu.edu/~zeil/cs361/latest/Public/treetraversal/index.html
                         auto node_ptr = nodeObserver_.lock();
-                        auto node_parent = node_ptr->parent_.lock();
+                        std::shared_ptr<node> tmp;
 
-                        if (node_parent == nullptr)
+                        if (node_ptr->child_right_ != nullptr)
                         {
-                            *this = iterator(node_ptr->child_right_);
-                        }
-                        else if (node_ptr->data_.first < node_parent->data_.first)
-                        {
-                            if (node_ptr->child_right_ == nullptr)
+                            node_ptr = node_ptr->child_right_;
+
+                            while (node_ptr->child_left_ != nullptr)
                             {
-                                *this = iterator(node_parent);
-                            }
-                            else
-                            {
-                                *this = iterator(node_ptr->child_right_);
+                                node_ptr = node_ptr->child_left_;
                             }
                         }
                         else
                         {
-                            if (node_ptr->child_left_ == nullptr)
+                            tmp = node_ptr->parent_.lock();
+
+                            while (tmp != nullptr && node_ptr == tmp->child_right_)
                             {
-                                if (node_ptr->child_right_ == nullptr)
-                                {
-                                    *this = iterator(node_parent->parent_.lock());
-                                }
-                                else
-                                {
-                                    *this = iterator(node_ptr->child_right_);    
-                                }
+                                node_ptr = tmp;
+                                tmp = tmp->parent_.lock();
                             }
-                            else
-                            {
-                                *this = iterator(node_ptr->child_left_);
-                            }
+
+                            node_ptr = tmp;
                         }
 
+                        *this = iterator(node_ptr);
                         return *this;
-                    }
-                    */
-
-                    iterator& operator++()
-                    {
-                        auto node_ptr = nodeObserver_.lock();
-                        auto node_parent = node_ptr->parent.lock();
-
-                        if (node_parent == nullptr)
-                        {
-                            *this = iterator(node_ptr->child_right_);
-                            return *this;
-                        }
-                        else if (node_ptr->data_.first < node_parent->data_.first)
-                        {
-                            if (node_ptr->child_right_ == nullptr)
-                            {
-                                *this = iterator(node_parent);
-                                return *this;
-                            }
-                            else
-                            {
-                                return ++iterator(node_ptr->child_right_);
-                            }
-                        }
-                        else
-                        {
-                            if (node_ptr->child_left_ == nullptr)
-                            {
-                                if (node_ptr->child_right_ == nullptr)
-                                {
-                                    *this = iterator(node_parent->parent_.lock());
-                                    return *this;
-                                }
-                                else
-                                {
-                                    return ++iterator(node_ptr->child_right_);
-                                }
-                                
-                            }
-                            
-                        }
-                        
-                        
                         
                     }
 
