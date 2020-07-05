@@ -177,11 +177,22 @@ int main()
         cout << "iterating through list in reverse order:" << endl;
         /* todo */
         // write this loop yourself; careful, one can easily screw up this test
-        // auto i = m.end();
+        auto i = m.end();
+        do
+        {
+            --i;
+            cout << "  " << i->first << ": " << i->second << endl;
+        } while (i != m.begin());
+        
+        
+        
 
         // some bit of automatic testing in addition
         assert((--m.end())->first == "Zebra");
         assert((----m.end())->first == "Klaus");
+        assert((------m.end())->first == "Helmut");
+        assert((--------m.end())->first == "Hartmut");
+        assert((----------m.end())->first == "Anna");
 
         cout << "done." << endl;
 
