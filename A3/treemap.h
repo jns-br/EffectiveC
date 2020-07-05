@@ -373,9 +373,9 @@ namespace my {
 
     // move ctor
     template<typename K, typename T>
-    treemap<K,T>::treemap(treemap<K,T>&&)
+    treemap<K,T>::treemap(treemap<K,T>&& map)
     {
-        /* todo */ 
+        swap(*this, map);
     }
 
     // deep copy ctor
@@ -504,7 +504,9 @@ namespace my {
 // (answer by Attention Mozza314)
 template<typename K, typename T>
 void
-swap(my::treemap<K,T>&, my::treemap<K,T>&)
+swap(my::treemap<K,T>& a, my::treemap<K,T>& b)
 {
+    std::swap(a.root_, b.root_);
+    std::swap(a.counter_, b.counter_);
 }
 
