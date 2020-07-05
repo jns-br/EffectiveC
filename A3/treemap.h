@@ -232,9 +232,9 @@ namespace my {
                             auto root_ptr = root_.lock();
                             node_ptr = root_ptr->child_right_;
 
-                            while (root_ptr->child_right_ != nullptr)
+                            while (node_ptr->child_right_ != nullptr)
                             {
-                                node_ptr = root_ptr->child_right_;
+                                node_ptr = node_ptr->child_right_;
                             }
                         }
                         else if (node_ptr->child_left_ != nullptr)
