@@ -300,7 +300,7 @@ namespace my {
             size_t size() const;
 
             // iterator referencing first element (node) in map
-            iterator begin();
+            iterator begin() const;
 
             // iterator referencing no element (node) in map
             iterator end() const;
@@ -380,17 +380,21 @@ namespace my {
 
     // deep copy ctor
     template<typename K, typename T>
-    treemap<K,T>::treemap(const treemap<K,T>& val) : root_(val.root_), counter_(val.counter_) 
+    treemap<K,T>::treemap(const treemap<K,T>& map) : counter_(map.counter_) 
     {
-        /* todo */ 
+        for (auto i = map.begin(); i != map.end(); ++i)
+        {
+            this->insert(i->first, i->second);
+        }
     }
 
     // assignment (move & copy)
     template<typename K, typename T>
     treemap<K,T>& 
-    treemap<K,T>::operator=(treemap<K,T>)
+    treemap<K,T>::operator=(treemap<K,T> map)
     {
-        /* todo, use copy&swap */ 
+        treemap<K,T> tmp(map);
+        swap(*this, tmp);
         return *this;
     }
 
@@ -398,7 +402,7 @@ namespace my {
     // iterator referencing first element (node) in map
     template<typename K, typename T>
     typename treemap<K,T>::iterator
-    treemap<K,T>::begin()
+    treemap<K,T>::begin() const
     {
         if (root_ == nullptr)
         {
