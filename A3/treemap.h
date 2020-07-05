@@ -236,10 +236,22 @@ namespace my {
                             {
                                 node_ptr = root_ptr->child_right_;
                             }
-
-
-                            
                         }
+                        else if (node_ptr->child_left_ != nullptr)
+                        {
+                            node_ptr = node_ptr->child_left_;
+
+                            while (node_ptr->child_left_ != nullptr)
+                            {
+                                node_ptr = node_ptr->child_left_;
+                            }
+                        }
+                        else
+                        {
+                            node_ptr = node_ptr->parent_.lock();
+                        }
+                        
+                        
                         *this = iterator(node_ptr, root_.lock());
                         return *this;
                     }
