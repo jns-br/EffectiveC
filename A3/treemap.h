@@ -122,7 +122,8 @@ namespace my {
                         if (child_left_ == nullptr)
                         {
                             return node::shared_from_this();
-                        } else
+                        } 
+                        else
                         {
                             return child_left_->first();
                         } 
@@ -189,12 +190,11 @@ namespace my {
                     // note: must modify self!
                     iterator& operator++()
                     {
-                        //https://www.cs.odu.edu/~zeil/cs361/latest/Public/treetraversal/index.html
                         auto node_ptr = nodeObserver_.lock();
-                        std::shared_ptr<node> tmp;
 
                         if (node_ptr->child_right_ != nullptr)
                         {
+                            //next is farthest left node of right subtree
                             node_ptr = node_ptr->child_right_;
 
                             while (node_ptr->child_left_ != nullptr)
@@ -204,14 +204,17 @@ namespace my {
                         }
                         else
                         {
-                            tmp = node_ptr->parent_.lock();
+                            //no right subtree + left subtree already processed!
+                            //look for non-null parent where node_ptr is a left child
+
+                            std::shared_ptr<node> tmp = node_ptr->parent_.lock();
 
                             while (tmp != nullptr && node_ptr == tmp->child_right_)
                             {
                                 node_ptr = tmp;
                                 tmp = tmp->parent_.lock();
                             }
-
+                            
                             node_ptr = tmp;
                         }
 
@@ -508,9 +511,9 @@ namespace my {
 // (answer by Attention Mozza314)
 template<typename K, typename T>
 void
-swap(my::treemap<K,T>& a, my::treemap<K,T>& b)
+swap(my::treemap<K,T>& lhs, my::treemap<K,T>& rhs)
 {
-    std::swap(a.root_, b.root_);
-    std::swap(a.counter_, b.counter_);
+    std::swap(lhs.root_, rhs.root_);
+    std::swap(lhs.counter_, rhs.counter_);
 }
 
