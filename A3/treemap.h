@@ -248,7 +248,15 @@ namespace my {
                         }
                         else
                         {
-                            node_ptr = node_ptr->parent_.lock();
+                            tmp = node_ptr->parent_.lock();
+
+                            while (tmp != nullptr && node_ptr == tmp->child_left_)
+                            {
+                                node_ptr = tmp;
+                                tmp = tmp->parent_.lock();
+                            }
+                            
+                            node_ptr = tmp;
                         }
                         
                         
