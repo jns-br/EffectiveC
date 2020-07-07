@@ -194,7 +194,6 @@ namespace my {
 
                         if (node_ptr->child_right_ != nullptr)
                         {
-                            //next is farthest left node of right subtree
                             node_ptr = node_ptr->child_right_;
 
                             while (node_ptr->child_left_ != nullptr)
@@ -204,8 +203,6 @@ namespace my {
                         }
                         else
                         {
-                            //no right subtree + left subtree already processed!
-                            //look for non-null parent where node_ptr is a left child
 
                             std::shared_ptr<node> tmp = node_ptr->parent_.lock();
 
@@ -422,7 +419,7 @@ namespace my {
     typename treemap<K,T>::iterator
     treemap<K,T>::end() const
     {
-        /* todo */ return iterator(nullptr, root_);
+        return iterator(nullptr, root_);
     }
 
     // add a new element into the tree
